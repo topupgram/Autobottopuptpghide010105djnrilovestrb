@@ -57,7 +57,72 @@
   .modal .actions { display: flex; gap: 8px; margin-top: 12px; }
   .modal .actions button { flex: 1; padding: 8px; font-size: 13px; }
   .modal .small-note { font-size: 11px; color: #888; margin-top: 10px; }
-  .copy-success { font-size: 12px; color: green; margin-top: 6px; }
+
+  .copy-success { font-size: 12px; color: green; margin-top: 6px; display:none; }
+
+  /* Metode pembayaran & nomor e-wallet */
+  .method-switch {
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .method-btn {
+    flex: 1;
+    padding: 4px 6px;
+    font-size: 11px;
+    border-radius: 999px;
+    border: 1px solid var(--accent);
+    background: #ffffff;
+    cursor: pointer;
+    color: var(--accent);
+  }
+  .method-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .wallet-section {
+    margin-top: 8px;
+    font-size: 11px;
+    text-align: left;
+  }
+  .wallet-label {
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #23314a;
+  }
+  .wallet-number-title {
+    font-size: 10px;
+    color: #555;
+  }
+  .wallet-number {
+    font-family: monospace;
+    font-size: 11px;
+    color: #333;
+    margin-top: 2px;
+    word-break: break-word;
+  }
+  .copy-mini-btn {
+    margin-top: 6px;
+    padding: 4px 6px;
+    font-size: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--accent);
+    background: #ffffff;
+    cursor: pointer;
+    color: var(--accent);
+    width: 100%;
+  }
+  .copy-mini-btn:hover {
+    background: #e6ebf5;
+  }
+  .wallet-note {
+    font-size: 10px;
+    color: #777;
+    margin-top: 6px;
+  }
 
   /* Centered validation popup (modal-like) */
   .validation-center {
@@ -119,28 +184,29 @@
   <div class="category">
     <h3>Robux Special</h3>
     <div class="prcContainer">
-      <div class="bc" data-nm="500 Robux" data-hg="75000" data-kt="spc">500 Robux<span>Rp75.000</span></div>
-      <div class="bc" data-nm="1000 Robux" data-hg="148000" data-kt="spc">1.000 Robux<span>Rp148.000</span></div>
-      <div class="bc" data-nm="1500 Robux" data-hg="222000" data-kt="spc">1.500 Robux<span>Rp222.000</span></div>
-      <div class="bc" data-nm="2000 Robux" data-hg="296000" data-kt="spc">2.000 Robux<span>Rp296.000</span></div>
-      <div class="bc" data-nm="2500 Robux" data-hg="367500" data-kt="spc">2.500 Robux<span>Rp367.500</span></div>
-      <div class="bc" data-nm="3000 Robux" data-hg="441000" data-kt="spc">3.000 Robux<span>Rp441.000</span></div>
-      <div class="bc" data-nm="3500 Robux" data-hg="514500" data-kt="spc">3.500 Robux<span>Rp514.500</span></div>
-      <div class="bc" data-nm="4000 Robux" data-hg="588000" data-kt="spc">4.000 Robux<span>Rp588.000</span></div>
-      <div class="bc" data-nm="5000 Robux" data-hg="735000" data-kt="spc">5.000 Robux<span>Rp735.000</span></div>
-      <div class="bc" data-nm="6000 Robux" data-hg="876000" data-kt="spc">6.000 Robux<span>Rp876.000</span></div>
+      <div class="bc" data-nm="500 Robux" data-hg="76500" data-kt="spc">500 Robux<span>Rp76.500</span></div>
+      <div class="bc" data-nm="1000 Robux" data-hg="153000" data-kt="spc">1.000 Robux<span>Rp153.000</span></div>
+      <div class="bc" data-nm="1500 Robux" data-hg="229500" data-kt="spc">1.500 Robux<span>Rp229.500</span></div>
+      <div class="bc" data-nm="2000 Robux" data-hg="306000" data-kt="spc">2.000 Robux<span>Rp306.000</span></div>
+      <div class="bc" data-nm="2500 Robux" data-hg="382500" data-kt="spc">2.500 Robux<span>Rp382.500</span></div>
+      <div class="bc" data-nm="3000 Robux" data-hg="459000" data-kt="spc">3.000 Robux<span>Rp459.000</span></div>
+      <div class="bc" data-nm="3500 Robux" data-hg="535500" data-kt="spc">3.500 Robux<span>Rp535.500</span></div>
+      <div class="bc" data-nm="4000 Robux" data-hg="612000" data-kt="spc">4.000 Robux<span>Rp612.000</span></div>
+      <div class="bc" data-nm="5000 Robux" data-hg="760000" data-kt="spc">5.000 Robux<span>Rp760.000</span></div>
+      <div class="bc" data-nm="6000 Robux" data-hg="912000" data-kt="spc">6.000 Robux<span>Rp912.000</span></div>
     </div>
   </div>
 
   <div class="category">
     <h3>Robux Premium</h3>
     <div class="prcContainer">
-      <div class="bc" data-nm="450 Robux + Premium" data-hg="75000" data-kt="pre">450 Robux + Premium<span>Rp75.000</span></div>
-      <div class="bc" data-nm="1000 Robux + Premium" data-hg="148000" data-kt="pre">1.000 Robux + Premium<span>Rp148.000</span></div>
-      <div class="bc" data-nm="1550 Robux + Premium" data-hg="222000" data-kt="pre">1.550 Robux + Premium<span>Rp222.000</span></div>
-      <div class="bc" data-nm="2200 Robux + Premium" data-hg="296000" data-kt="pre">2.200 Robux + Premium<span>Rp296.000</span></div>
-      <div class="bc" data-nm="2750 Robux + Premium" data-hg="367500" data-kt="pre">2.750 Robux + Premium<span>Rp367.500</span></div>
-      <div class="bc" data-nm="3300 Robux + Premium" data-hg="441000" data-kt="pre">3.300 Robux + Premium<span>Rp441.000</span></div>
+      <div class="bc" data-nm="450 Robux + Premium" data-hg="76500" data-kt="pre">450 Robux + Premium<span>Rp76.500</span></div>
+      <div class="bc" data-nm="1000 Robux + Premium" data-hg="153000" data-kt="pre">1.000 Robux + Premium<span>Rp153.000</span></div>
+      <div class="bc" data-nm="1550 Robux + Premium" data-hg="229500" data-kt="pre">1.550 Robux + Premium<span>Rp229.500</span></div>
+      <div class="bc" data-nm="2200 Robux + Premium" data-hg="306000" data-kt="pre">2.200 Robux + Premium<span>Rp306.000</span></div>
+      <div class="bc" data-nm="2750 Robux + Premium" data-hg="382500" data-kt="pre">2.750 Robux + Premium<span>Rp382.500</span></div>
+      <div class="bc" data-nm="3300 Robux + Premium" data-hg="459000" data-kt="pre">3.300 Robux + Premium<span>Rp459.000</span></div>
+      <div class="bc" data-nm="11000 Robux + Premium" data-hg="1520000" data-kt="pre">11.000 Robux + Premium<span>Rp1.520.000</span></div>
     </div>
   </div>
 
@@ -198,12 +264,44 @@
   </div>
 </div>
 
+<!-- PAYMENT MODAL BARU (multi metode) -->
 <div id="paymentModalBackdrop" class="modal-backdrop" aria-hidden="true">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <h3 id="modalTitle">Pembayaran</h3>
+
+    <!-- QR hanya untuk QRIS -->
     <img id="modalQr" class="qr" src="" alt="QR Pembayaran">
+
+    <!-- Nominal akhir -->
     <div id="modalAmount" class="amount">Rp0</div>
-    <div class="pay-note">Data pesanan berhasil dikirim! Silahkan lakukan pembayaran, lalu screenshot bukti pembayaran.</div>
+
+    <!-- PILIH METODE -->
+    <div class="method-switch">
+      <button type="button" class="method-btn active" data-method="qris">QRIS</button>
+      <button type="button" class="method-btn" data-method="gopay">GoPay</button>
+      <button type="button" class="method-btn" data-method="seabank">SeaBank</button>
+      <button type="button" class="method-btn" data-method="dana">DANA</button>
+    </div>
+
+    <!-- DETAIL NOMOR -->
+    <div class="wallet-section">
+      <div id="walletLabel" class="wallet-label">QRIS (scan QR di atas)</div>
+
+      <div id="walletNumberWrapper">
+        <div id="walletNumberTitle" class="wallet-number-title">No tujuan pembayaran</div>
+        <div id="walletNumber" class="wallet-number">Gunakan QR di atas</div>
+        <button id="copyNumberBtn" type="button" class="copy-mini-btn">Salin nomor</button>
+      </div>
+
+      <div id="walletNote" class="wallet-note">
+        QRIS hingga Rp499.000 tidak ada biaya tambahan. Di atas itu akan dikenakan biaya 0,3% dari nominal.
+      </div>
+    </div>
+
+    <div class="pay-note">
+      Data pesanan berhasil dikirim! Silahkan lakukan pembayaran, lalu screenshot bukti pembayaran.
+    </div>
+
     <div class="actions">
       <button id="copyAmountBtn" type="button">Salin Jumlah</button>
       <button id="openBotBtn" type="button">Buka Bot</button>
@@ -212,14 +310,13 @@
     <div style="margin-top:10px;">
       <button id="closeModalBtn" type="button" style="width:100%; background:#e0e0e0; color:#222;">Tutup</button>
     </div>
-    <div id="copySuccess" class="copy-success" style="display:none;">Jumlah berhasil disalin ke clipboard</div>
+    <div id="copySuccess" class="copy-success"></div>
   </div>
 </div>
 
 <div id="validationContainer"></div>
 
 <script>
-/* semua script sama seperti aslinya (tidak diubah) */
 function sanitize(v){return v?Number(String(v).replace(/\D+/g,'')):NaN;}
 function fill({nmText,hgRaw,ktVal}) {
   document.getElementById('nm').value = nmText||'';
@@ -342,24 +439,158 @@ document.addEventListener('DOMContentLoaded', function(){
     .catch(()=> alert('Terjadi kesalahan.'));
   });
 
+  /* ==== PAYMENT POPUP DENGAN METODE QRIS / GOPAY / SEABANK / DANA ==== */
   function showPaymentPopup(qrUrl, hargaFormatted){
     const backdrop = document.getElementById('paymentModalBackdrop');
     const modalQr = document.getElementById('modalQr');
     const modalAmount = document.getElementById('modalAmount');
     const copySuccess = document.getElementById('copySuccess');
 
-    modalQr.src = qrUrl;
+    const walletLabel = document.getElementById('walletLabel');
+    const walletNumberTitle = document.getElementById('walletNumberTitle');
+    const walletNumber = document.getElementById('walletNumber');
+    const walletNumberWrapper = document.getElementById('walletNumberWrapper');
+    const walletNote = document.getElementById('walletNote');
+    const copyNumberBtn = document.getElementById('copyNumberBtn');
 
-    let amountText = hargaFormatted || '';
-    if(!/^Rp/i.test(amountText)){
-      const num = Number(String(amountText).replace(/[^\d]/g,''));
-      amountText = 'Rp' + new Intl.NumberFormat('id-ID').format(isNaN(num)?0:num);
+    const methodButtons = document.querySelectorAll('.method-btn');
+    const copyAmountBtn = document.getElementById('copyAmountBtn');
+
+    const GOPAY_NUMBER   = '083197962700';
+    const DANA_NUMBER    = '083197962700';
+    const SEABANK_NUMBER = '901673348752';
+
+    const baseAmount = (function () {
+      const num = Number(String(hargaFormatted).replace(/[^\d]/g, ''));
+      return isNaN(num) ? 0 : num;
+    })();
+
+    function formatRupiah(num) {
+      return "Rp" + new Intl.NumberFormat('id-ID').format(num);
     }
-    modalAmount.textContent = amountText;
+
+    const METHOD_CONFIG = {
+      qris: {
+        label: 'QRIS (scan QR di atas)',
+        numberTitle: '',
+        number: '',
+        calcTotal: (base) => {
+          if (base <= 499000) return base;
+          const fee = Math.round(base * 0.003); // 0.3%
+          return base + fee;
+        },
+        note: 'QRIS hingga Rp499.000 tidak ada biaya tambahan. Di atas itu akan dikenakan biaya 0,3% dari nominal.',
+        showNumber: false
+      },
+      gopay: {
+        label: 'Transfer GoPay',
+        numberTitle: 'No HP GoPay',
+        number: GOPAY_NUMBER,
+        calcTotal: (base) => base,
+        note: 'Pembayaran GoPay tidak ada biaya tambahan. Bayar sesuai nominal yang tertera.',
+        showNumber: true
+      },
+      seabank: {
+        label: 'Transfer SeaBank',
+        numberTitle: 'No rekening SeaBank',
+        number: SEABANK_NUMBER,
+        calcTotal: (base) => base,
+        note: 'SeaBank tidak ada biaya tambahan. Bayar sesuai nominal yang tertera.',
+        showNumber: true
+      },
+      dana: {
+        label: 'Transfer DANA',
+        numberTitle: 'No HP DANA',
+        number: DANA_NUMBER,
+        calcTotal: (base) => base + 100,
+        note: 'Pembayaran DANA dikenakan biaya admin Rp100. Total sudah termasuk biaya admin.',
+        showNumber: true
+      }
+    };
+
+    function showMessage(msg) {
+      copySuccess.textContent = msg;
+      copySuccess.style.display = 'block';
+      setTimeout(()=> copySuccess.style.display = 'none', 2500);
+    }
+
+    function copyTextToClipboard(text, successMsg) {
+      if (!text) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showMessage(successMsg);
+        }).catch(() => {
+          const tmp = document.createElement('textarea');
+          tmp.value = text;
+          document.body.appendChild(tmp);
+          tmp.select();
+          try {
+            document.execCommand('copy');
+            showMessage(successMsg);
+          } catch(e) {
+            showMessage('Tidak dapat menyalin, silakan salin manual.');
+          }
+          document.body.removeChild(tmp);
+        });
+      } else {
+        const tmp = document.createElement('textarea');
+        tmp.value = text;
+        document.body.appendChild(tmp);
+        tmp.select();
+        try {
+          document.execCommand('copy');
+          showMessage(successMsg);
+        } catch(e) {
+          showMessage('Tidak dapat menyalin, silakan salin manual.');
+        }
+        document.body.removeChild(tmp);
+      }
+    }
+
+    function applyMethod(methodKey) {
+      methodButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.method === methodKey);
+      });
+
+      const cfg = METHOD_CONFIG[methodKey];
+
+      walletLabel.textContent = cfg.label;
+      walletNote.textContent = cfg.note;
+
+      const total = cfg.calcTotal(baseAmount);
+      modalAmount.textContent = formatRupiah(total);
+
+      if (cfg.showNumber) {
+        walletNumberTitle.textContent = cfg.numberTitle;
+        walletNumber.textContent = cfg.number;
+        walletNumberWrapper.style.display = 'block';
+        copyNumberBtn.style.display = 'block';
+      } else {
+        // QRIS: tidak perlu ditampilkan nomor + tombol salin
+        walletNumberWrapper.style.display = 'none';
+        copyNumberBtn.style.display = 'none';
+      }
+
+      if (methodKey === 'qris') {
+        modalQr.style.display = 'block';
+        modalQr.src = qrUrl;
+      } else {
+        modalQr.style.display = 'none';
+      }
+    }
+
+    // default QRIS
+    applyMethod('qris');
 
     copySuccess.style.display = 'none';
     backdrop.style.display = 'flex';
     backdrop.setAttribute('aria-hidden','false');
+
+    methodButtons.forEach(btn => {
+      btn.onclick = function () {
+        applyMethod(this.dataset.method);
+      };
+    });
 
     document.getElementById('closeModalBtn').onclick = function(){
       backdrop.style.display = 'none';
@@ -372,27 +603,17 @@ document.addEventListener('DOMContentLoaded', function(){
       }
     };
 
-    document.getElementById('copyAmountBtn').onclick = function(){
-      const textToCopy = modalAmount.textContent || '';
-      navigator.clipboard?.writeText(textToCopy).then(()=>{
-        copySuccess.style.display = 'block';
-        setTimeout(()=> copySuccess.style.display = 'none', 2500);
-      }).catch(()=>{
-        const tmp = document.createElement('textarea');
-        tmp.value = textToCopy;
-        document.body.appendChild(tmp);
-        tmp.select();
-        try{
-          document.execCommand('copy');
-          copySuccess.style.display = 'block';
-          setTimeout(()=> copySuccess.style.display = 'none', 2500);
-        }catch(e){
-          alert('Tidak dapat menyalin, silahkan salin secara manual: ' + textToCopy);
-        }
-        document.body.removeChild(tmp);
-      });
+    // salin nomor (GoPay / SeaBank / DANA)
+    copyNumberBtn.onclick = function () {
+      copyTextToClipboard(walletNumber.textContent || '', 'Nomor berhasil disalin');
     };
 
+    // salin jumlah total
+    copyAmountBtn.onclick = function(){
+      copyTextToClipboard(modalAmount.textContent || '', 'Jumlah berhasil disalin');
+    };
+
+    // buka bot (tetap)
     document.getElementById('openBotBtn').onclick = function(){
       const botUsername = 'topupgamesbot';
       const tgScheme = 'tg://resolve?domain=' + encodeURIComponent(botUsername);
