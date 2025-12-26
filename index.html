@@ -557,7 +557,7 @@ document.addEventListener('DOMContentLoaded', function(){
         showNumber: false
       },
       gopay: {
-        label: 'Transfer GoPay',
+        label: 'Transfer GoPay ke GoPay',
         numberTitle: 'No HP GoPay',
         number: GOPAY_NUMBER,
         calcTotal: (base) => base,
@@ -573,11 +573,11 @@ document.addEventListener('DOMContentLoaded', function(){
         showNumber: true
       },
       dana: {
-        label: 'Transfer DANA',
+        label: 'Transfer dari DANA KE DANA',
         numberTitle: 'No HP DANA',
         number: DANA_NUMBER,
         calcTotal: (base) => base + 100,
-        note: 'Pembayaran DANA dikenakan biaya admin Rp100. Total sudah termasuk biaya admin.',
+        note: 'Pembayaran DANA wajib transfer dari DANA. Dikenakan biaya admin Rp100. Total sudah termasuk biaya admin.',
         showNumber: true
       }
     };
