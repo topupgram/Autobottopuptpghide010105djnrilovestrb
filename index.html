@@ -291,11 +291,11 @@
       <button type="button" class="method-btn active" data-method="qris">QRIS</button>
       <button type="button" class="method-btn" data-method="gopay">GoPay</button>
       <button type="button" class="method-btn" data-method="seabank">SeaBank</button>
-      <button type="button" class="method-btn" data-method="bri">BRI</button>
+      <button type="button" class="method-btn" data-method="dana">DANA</button>
     </div>
 
     <div class="wallet-section">
-      <div id="walletLabel" class="wallet-label">QRIS All Payment (scan QR di atas)</div>
+      <div id="walletLabel" class="wallet-label">QRIS (scan QR di atas)</div>
 
       <div id="walletNumberWrapper">
         <div id="walletNumberTitle" class="wallet-number-title">No tujuan pembayaran</div>
@@ -531,7 +531,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const copyAmountBtn = document.getElementById('copyAmountBtn');
 
     const GOPAY_NUMBER   = '083197962700';
-    const BRI_NUMBER    = '3295 0102 4903 507';
+    const DANA_NUMBER    = '083197962700';
     const SEABANK_NUMBER = '901673348752';
 
     const baseAmount = (function () {
@@ -566,18 +566,18 @@ document.addEventListener('DOMContentLoaded', function(){
       },
       seabank: {
         label: 'Transfer SeaBank',
-        numberTitle: 'Nomor rekening SeaBank',
+        numberTitle: 'No rekening SeaBank',
         number: SEABANK_NUMBER,
         calcTotal: (base) => base,
         note: 'SeaBank tidak ada biaya tambahan. Bayar sesuai nominal yang tertera.',
         showNumber: true
       },
-      bri: {
-        label: 'Transfer BRI',
-        numberTitle: 'Nomor rekening BRI',
+      dana: {
+        label: 'Transfer DANA',
+        numberTitle: 'No HP DANA',
         number: DANA_NUMBER,
         calcTotal: (base) => base + 100,
-        note: 'BRI tidak ada biaya tambahan. Bayar sesuai nominal yang tertera.',
+        note: 'Pembayaran DANA dikenakan biaya admin Rp100. Total sudah termasuk biaya admin.',
         showNumber: true
       }
     };
